@@ -123,16 +123,29 @@ export const filterCombinationsByLegName = (combinations, name) => {
 /**
  * Returns filtered list of course objects
  */
-export const filterCoursesByCombinations = (leg, combinations) => {
+export const filterCoursesByCombinations = (leg, includeCombinations, excludeCombinations) => {
     const courseData = getFullCourseDataFromLeg(leg);
-    const usedCombinations = filterCombinationsByLegName(combinations, leg.name);
+    const usedIncludeCombinations = includeCombinations ? filterCombinationsByLegName(includeCombinations, leg.name) : [];
+    const usedExcludeCombinations = excludeCombinations ? filterCombinationsByLegName(excludeCombinations, leg.name) : [];
 
     return courseData.filter((course) => {
         // check against all combination rules
-        // if the forking contains the "if" variant, then it must contain all "then" variants
-        for(const combination of usedCombinations) {
+        // if the forking contains the "if" variant of the include rule,
+        // then it must contain all "then" variants
+        for(const combination of usedIncludeCombinations) {
             if(course.forkings.includes(combination.if)) {
                 if(!combination.then.every(c => course.forkings.includes(c))) {
+                    return false;
+                }
+            }
+        }
+        // if the forking contains the "if" variant of the exclude rule,
+        // then it must contain none of the "not" variants
+        for(const combination of usedExcludeCombinations) {
+            if(course.forkings.includes(combination.if)) {
+                console.log('checking %s against %s', course.forkings, combination.if);
+                if(combination.not.some(c => course.forkings.includes(c))) {
+                    console.log('this matches', combination.not);
                     return false;
                 }
             }
