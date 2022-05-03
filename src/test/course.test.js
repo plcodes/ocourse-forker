@@ -91,12 +91,12 @@ test('Array equals', () => {
 })
 
 test('Forkings are defined correctly', () => {
-    const [status, msg] = courseFn.checkForkingsAreDefinedCorrectly([sampleLeg]);
-    expect(status).toBe(true);
-    expect(msg).eq('')
-    const [status2, msg2] = courseFn.checkForkingsAreDefinedCorrectly([invalidSampleLeg]);
-    expect(status2).toBe(false);
-    expect(msg2).not.eq('')
+    const check1 = courseFn.checkForkingsAreDefinedCorrectly([sampleLeg]);
+    expect(check1.status).toBe(true);
+    expect(check1.msg).eq('')
+    const check2 = courseFn.checkForkingsAreDefinedCorrectly([invalidSampleLeg]);
+    expect(check2.status).toBe(false);
+    expect(check2.msg).not.eq('')
 })
 
 test('Get all forkings object', () => {

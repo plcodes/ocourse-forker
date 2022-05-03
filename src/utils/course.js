@@ -40,7 +40,10 @@ export const checkForkingsAreDefinedCorrectly = (legs) => {
                     if(typeof existing !== typeof value || 
                         typeof value === 'number'? value !== existing : !arrayEquals(existing, value)) {
    
-                        return [false, `Error in forkings. Settings for forking ${key} don\'t match. Previous: ${existing}, new: ${value}`]
+                        return {
+                            status: false,
+                            msg: `Settings for forking ${key} don\'t match. Previous: ${existing}, new: ${value}`
+                        }
                     }
                 } else {
                     definitions[key] = value;
@@ -48,7 +51,10 @@ export const checkForkingsAreDefinedCorrectly = (legs) => {
             };
         };
     }
-    return [true, ''];
+    return {
+        status: true,
+        msg: ''
+    }
 };
 
 /** 

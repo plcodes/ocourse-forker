@@ -33,17 +33,20 @@ export default {
                 ]
             },
             courseData: [],
-            courseHeader: csvFn.getCoursesHeaderRow()
+            courseHeader: csvFn.getCoursesHeaderRow(),
+            
         }
     },
+    computed: {
+        forkingsAreDefinedCorrectly: function() {
+            return courseFn.checkForkingsAreDefinedCorrectly(this.relay.legs)
+        } 
+    },
     methods: {
-        checkForkings() {
-            return courseFn.checkForkingsAreDefinedCorrectly(this.relay.legs);
-        },
-        createCourses() {
+        createCourses: function() {
             this.courseData = courseFn.createRelayData(this.relay.legs);
         },
-        toCsv(relayName, courseName, length, climb, courseId, controls) {
+        toCsv: function(relayName, courseName, length, climb, courseId, controls) {
             return csvFn.courseToCsvRow(relayName, courseName, length, climb, courseId, controls);
         }
     },
@@ -56,8 +59,11 @@ export default {
 </script>
 
 <template>
-  <p>Relay: {{relay}}</p>
-  <p>checkForkings:{{checkForkings()}}</p>
+  <h1>Course Forker</h1>
+  <p>A tool to automatically create orienteering relay courses from relay variants.</p>
+  <textarea>{{JSON.stringify(relay)}}</textarea>
+  <p v-if="forkingsAreDefinedCorrectly.status">Forkings ok</p>
+  <p v-else>Problem in forkings: {{forkingsAreDefinedCorrectly.msg}}</p>
 
   <h2>Course csvs:</h2>
   <code v-if="courseData">
@@ -68,8 +74,6 @@ export default {
     </template>
   </template>
   </code>
-
-
 </template>
 
 <style scoped>
