@@ -29,23 +29,25 @@ export const getAllForkingsObject = (course) => {
  * 
  * @return {Array} An array containing the status and a possible error message
  */
-export const checkForkingsAreDefinedCorrectly = (course) => {
-    let definitions = {},
-        forkings = getForkingsFromCourse(course);
-    for(const forking of forkings) {
-        for(const [key, value] of Object.entries(forking)) {
-            if(key in definitions) {
-                const existing = definitions[key];
-                if(typeof existing !== typeof value || 
-                    typeof value === 'number'? value !== existing : !arrayEquals(existing, value)) {
-
-                    return [false, 'Error in forkings. Settings for forking %s don\'t match. Previous: %s, new: %s', key, existing, value]
+export const checkForkingsAreDefinedCorrectly = (legs) => {
+    let definitions = {};
+    for(const leg of legs) {
+        const forkings = getForkingsFromCourse(leg.course);
+        for(const forking of forkings) {
+            for(const [key, value] of Object.entries(forking)) {
+                if(key in definitions) {
+                    const existing = definitions[key];
+                    if(typeof existing !== typeof value || 
+                        typeof value === 'number'? value !== existing : !arrayEquals(existing, value)) {
+   
+                        return [false, `Error in forkings. Settings for forking ${key} don\'t match. Previous: ${existing}, new: ${value}`]
+                    }
+                } else {
+                    definitions[key] = value;
                 }
-            } else {
-                definitions[key] = value;
-            }
+            };
         };
-    };
+    }
     return [true, ''];
 };
 
@@ -143,13 +145,19 @@ export const filterCoursesByCombinations = (leg, includeCombinations, excludeCom
         // then it must contain none of the "not" variants
         for(const combination of usedExcludeCombinations) {
             if(course.forkings.includes(combination.if)) {
-                console.log('checking %s against %s', course.forkings, combination.if);
                 if(combination.not.some(c => course.forkings.includes(c))) {
-                    console.log('this matches', combination.not);
                     return false;
                 }
             }
         }
         return true
     })
+}
+
+export const createRelayData = (legs, includeCombinations, excludeCombinations) => {
+    let data = [];
+    for(const leg of legs) {
+        data.push(filterCoursesByCombinations(leg, includeCombinations, excludeCombinations));
+    }
+    return data;
 }

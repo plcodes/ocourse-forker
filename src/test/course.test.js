@@ -91,10 +91,10 @@ test('Array equals', () => {
 })
 
 test('Forkings are defined correctly', () => {
-    const [status, msg] = courseFn.checkForkingsAreDefinedCorrectly(sampleLeg.course);
+    const [status, msg] = courseFn.checkForkingsAreDefinedCorrectly([sampleLeg]);
     expect(status).toBe(true);
     expect(msg).eq('')
-    const [status2, msg2] = courseFn.checkForkingsAreDefinedCorrectly(invalidSampleLeg.course);
+    const [status2, msg2] = courseFn.checkForkingsAreDefinedCorrectly([invalidSampleLeg]);
     expect(status2).toBe(false);
     expect(msg2).not.eq('')
 })
@@ -131,8 +131,10 @@ test('Course as csv', () => {
     const courseData = courseFn.getFullCourseDataFromLeg(sampleLeg),
         course1 = courseFn.findCourseByName(courseData, 'H1A1B1'),
         course2 = courseFn.findCourseByName(courseData, 'H1A2B2');
-    expect(csvFn.courseToCsvRow(course1.controls)).toEqual('L1;31;32;72;73;35;75;M')
-    expect(csvFn.courseToCsvRow(course2.controls)).toEqual('L1;33;34;72;73;36;75;M')
+    expect(csvFn.courseToCsvRow('relayName', 'courseName', 'length', 'climb', 'H1A1B1', course1.controls))
+        .toEqual('Relay;H1A1B1;relayName;courseName;length;climb;L1;31;32;72;73;35;75;M')
+    expect(csvFn.courseToCsvRow('relayName', 'courseName', 'length', 'climb', 'H1A2B2', course2.controls))
+        .toEqual('Relay;H1A2B2;relayName;courseName;length;climb;L1;33;34;72;73;36;75;M')
 })
 
 test('Filter combinations by name', () => {
