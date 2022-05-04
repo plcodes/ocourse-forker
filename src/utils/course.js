@@ -1,6 +1,10 @@
 // helper method
 export const arrayEquals = (a,b) => a.length === b.length && a.every((value, index) => value === b[index]);
 
+const toTwoDigits = (number) => {
+    return (number).toLocaleString(undefined, {minimumIntegerDigits: 2})
+}
+
 /**
  * returns only the forking parts of the course
  * Example:
@@ -87,35 +91,40 @@ export const cartesian = (a) => a.reduce((a, b) => a.flatMap(d => b.map(e => [d,
  * returns full Object containing leg course data
  * Example:
  * [{
- *  name: 'H1A1B1',
+ *  legName: 'H1',
+ *  courseId: 'H101',
+ *  courseName: 'H1A1B1',
  *  definition: ['L1', 'A1', 72, 73, 'B1', 75, 'M'],
  *  forkings: [ 'A1', 'B1' ],
  *  controls: ['L1', 31,  32, 72, 73, 35, 75, 'M']
  * },
  * {
- *  name: 'H1A1B2', 
+ *  legName: 'H1',
+ *  courseId: 'H102',
+ *  courseName: 'H1A1B2', 
  *  ...
 */
 export const getFullCourseDataFromLeg = (leg) => {
     let result = [];
     const forkingsById = getAllForkingsObject(leg.course);
     const allCourseVariants = cartesian(getCourseWithForkingIds(leg.course));
-    for(const variant of allCourseVariants) {
-        let variantId = [];
+    for(const [index, variant] of allCourseVariants.entries()) {
+        let variantControls = [];
         let variantCourse = [];
         for(const routepart of variant) {
             if(routepart in forkingsById) {
                 variantCourse.push(forkingsById[routepart])
-                variantId.push(routepart);
+                variantControls.push(routepart);
             } else {
                 variantCourse.push(routepart);
             }
         }
         result.push({
-            leg: leg.name,
-            name: leg.name + variantId.join(''),
+            legName: leg.name,
+            courseId: leg.name + toTwoDigits(index+1),
+            courseName: leg.name + variantControls.join(''),
             definition: variant,
-            forkings: variantId,
+            forkings: variantControls,
             controls: variantCourse.flat()
         })
     }
@@ -123,7 +132,8 @@ export const getFullCourseDataFromLeg = (leg) => {
     return result;
 }
 
-export const findCourseByName = (courses, name) => courses.find(course => course.name === name);
+
+export const findCourseByName = (courses, name) => courses.find(course => course.courseName === name);
 export const filterCombinationsByLegName = (combinations, name) => {
     return combinations.filter(combination => (combination.leg === name || combination.leg === ''));
 }
@@ -163,7 +173,10 @@ export const filterCoursesByCombinations = (leg, includeCombinations, excludeCom
 export const createRelayData = (legs, includeCombinations, excludeCombinations) => {
     let data = [];
     for(const leg of legs) {
-        data.push(filterCoursesByCombinations(leg, includeCombinations, excludeCombinations));
+        data.push({
+            legName: leg.name,
+            courses: filterCoursesByCombinations(leg, includeCombinations, excludeCombinations)
+        });
     }
     return data;
 }

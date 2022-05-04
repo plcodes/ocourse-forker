@@ -4,7 +4,6 @@ import Courses from './components/Courses.vue'
 </script>
 
 <template>
-  <!--<HelloWorld msg="Hello Vue 3 + Vite" />-->
   <Courses/>
 </template>
 

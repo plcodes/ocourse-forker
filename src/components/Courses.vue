@@ -38,9 +38,12 @@ export default {
         }
     },
     computed: {
+        legsAreDefinedCorrectly: function() {
+            return this.relay.legCount === this.relay.legs.length;
+        },
         forkingsAreDefinedCorrectly: function() {
             return courseFn.checkForkingsAreDefinedCorrectly(this.relay.legs)
-        } 
+        },
     },
     methods: {
         createCourses: function() {
@@ -62,6 +65,8 @@ export default {
   <h1>Course Forker</h1>
   <p>A tool to automatically create orienteering relay courses from relay variants.</p>
   <textarea>{{JSON.stringify(relay)}}</textarea>
+  <p v-if="legsAreDefinedCorrectly">Legs ok</p>
+  <p v-else>Leg count is {{relay.legCount}}, but {{relay.legs.length}} legs are defined</p>
   <p v-if="forkingsAreDefinedCorrectly.status">Forkings ok</p>
   <p v-else>Problem in forkings: {{forkingsAreDefinedCorrectly.msg}}</p>
 
@@ -69,11 +74,17 @@ export default {
   <code v-if="courseData">
   {{courseHeader}}<br>
   <template v-for="(leg, index) in courseData">
-    <template v-for="variant in leg" key="variant.name">
-        {{toCsv(relay.name, variant.leg, '', '', variant.name, variant.controls)}}<br>
+    <template v-for="course in leg.courses" key="course.courseName">
+        {{toCsv(relay.name, course.courseName, '', '', course.courseId, course.controls)}}<br>
     </template>
   </template>
   </code>
+
+  <h2>Forking amounts</h2>
+  <p v-for="(leg, index) in courseData">
+    {{leg.legName}}: {{leg.courses.length}}
+  </p>
+
 </template>
 
 <style scoped>
