@@ -1,37 +1,12 @@
 <script>
 import * as courseFn from '../utils/course';
 import * as csvFn from '../utils/csv';
+import * as hrvData from '../data/hrv2022';
 
 export default {
     data() {
         return {
-            relay: {
-                name: 'Hämeen Rastiviesti 2022',
-                relayClass: 'H',
-                legCount: 3,
-                legs: [
-                    {
-                        name: 'H1',
-                        course: [
-                            'L1',
-                            {A1: [31,32], A2: [33,34]},
-                            35, 36,
-                            {B1: 37, B2: 38},
-                            39, 'M1'
-                        ]
-                    },
-                    {
-                        name: 'H2',
-                        course: [
-                            'L1',
-                            {A1: [31,32], A2: [33,34]},
-                            35, 36,
-                            {B1: 37, B2: 38},
-                            39, 'M1'
-                        ]
-                    },
-                ]
-            },
+            relay: undefined,
             courseData: [],
             courseHeader: csvFn.getCoursesHeaderRow(),
             
@@ -39,10 +14,10 @@ export default {
     },
     computed: {
         legsAreDefinedCorrectly: function() {
-            return this.relay.legCount === this.relay.legs.length;
+            return this.relay ? this.relay.legCount === this.relay.legs.length : undefined;
         },
         forkingsAreDefinedCorrectly: function() {
-            return courseFn.checkForkingsAreDefinedCorrectly(this.relay.legs)
+            return this.relay ? courseFn.checkForkingsAreDefinedCorrectly(this.relay.legs) : undefined;
         },
     },
     methods: {
@@ -54,6 +29,7 @@ export default {
         }
     },
     mounted: function () {
+        this.relay = hrvData.hrv2022;
         this.createCourses()
     }
 
@@ -64,26 +40,29 @@ export default {
 <template>
   <h1>Course Forker</h1>
   <p>A tool to automatically create orienteering relay courses from relay variants.</p>
-  <textarea>{{JSON.stringify(relay)}}</textarea>
-  <p v-if="legsAreDefinedCorrectly">Legs ok</p>
-  <p v-else>Leg count is {{relay.legCount}}, but {{relay.legs.length}} legs are defined</p>
-  <p v-if="forkingsAreDefinedCorrectly.status">Forkings ok</p>
-  <p v-else>Problem in forkings: {{forkingsAreDefinedCorrectly.msg}}</p>
+  
+  <template v-if="relay">
+    <textarea>{{JSON.stringify(relay)}}</textarea>
+    <p v-if="legsAreDefinedCorrectly">Legs ok</p>
+    <p v-else>Leg count is {{relay.legCount}}, but {{relay.legs.length}} legs are defined</p>
+    <p v-if="forkingsAreDefinedCorrectly.status">Forkings ok</p>
+    <p v-else>Problem in forkings: {{forkingsAreDefinedCorrectly.msg}}</p>
 
-  <h2>Course csvs:</h2>
-  <code v-if="courseData">
-  {{courseHeader}}<br>
-  <template v-for="(leg, index) in courseData">
-    <template v-for="course in leg.courses" key="course.courseName">
-        {{toCsv(relay.name, course.courseName, '', '', course.courseId, course.controls)}}<br>
+    <h2>Course csvs:</h2>
+    <code v-if="courseData">
+    {{courseHeader}}<br>
+    <template v-for="(leg, index) in courseData">
+        <template v-for="course in leg.courses" key="course.courseName">
+            {{toCsv(relay.name, course.courseName, '', '', course.courseId, course.controls)}}<br>
+        </template>
     </template>
-  </template>
-  </code>
+    </code>
 
-  <h2>Forking amounts</h2>
-  <p v-for="(leg, index) in courseData">
-    {{leg.legName}}: {{leg.courses.length}}
-  </p>
+    <h2>Forking amounts</h2>
+    <p v-for="(leg, index) in courseData">
+        {{leg.legName}}: {{leg.courses.length}}
+    </p>
+  </template>
 
 </template>
 
