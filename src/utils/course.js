@@ -89,26 +89,33 @@ export const cartesian = (a) => a.reduce((a, b) => a.flatMap(d => b.map(e => [d,
 
 /** 
  * returns full Object containing leg course data
- * Example:
- * [{
- *  legName: 'H1',
- *  courseId: 'H101',
- *  courseName: 'H1A1B1',
- *  definition: ['L1', 'A1', 72, 73, 'B1', 75, 'M'],
- *  forkings: [ 'A1', 'B1' ],
- *  controls: ['L1', 31,  32, 72, 73, 35, 75, 'M']
- * },
+ * Example: 
  * {
  *  legName: 'H1',
- *  courseId: 'H102',
- *  courseName: 'H1A1B2', 
- *  ...
+ *  courses: [
+ *      {
+ *          legName: 'H1',
+ *          courseId: 'H101',
+ *          courseName: 'H1A1B1',
+ *          definition: ['L1', 'A1', 72, 73, 'B1', 75, 'M'],
+ *          forkings: [ 'A1', 'B1' ],
+ *          controls: ['L1', 31,  32, 72, 73, 35, 75, 'M']
+ *      },
+ *      {
+ *          legName: 'H1',
+ *          courseId: 'H102',
+ *          courseName: 'H1A1B2', 
+ *          ...
+ *      }
+ *   ]
+ * }
 */
-export const getFullCourseDataFromLeg = (leg) => {
+export const getFullCourseDataFromLeg = (leg, includeCombinationsForLeg, excludeCombinationsForLeg) => {
     let result = [];
     const forkingsById = getAllForkingsObject(leg.course);
     const allCourseVariants = cartesian(getCourseWithForkingIds(leg.course));
-    for(const [index, variant] of allCourseVariants.entries()) {
+    let courseIndex = 1;
+    for(const variant of allCourseVariants) {
         let variantControls = [];
         let variantCourse = [];
         for(const routepart of variant) {
@@ -119,63 +126,69 @@ export const getFullCourseDataFromLeg = (leg) => {
                 variantCourse.push(routepart);
             }
         }
-        result.push({
-            legName: leg.name,
-            courseId: leg.name + toTwoDigits(index+1),
-            courseName: leg.name + variantControls.join(''),
-            definition: variant,
-            forkings: variantControls,
-            controls: variantCourse.flat()
-        })
+        if(checkForkingAllowed(variantControls, includeCombinationsForLeg, excludeCombinationsForLeg)) {
+            result.push({
+                legName: leg.name,
+                courseId: leg.name + toTwoDigits(courseIndex),
+                courseName: leg.name + variantControls.join(''),
+                definition: variant,
+                forkings: variantControls,
+                controls: variantCourse.flat()
+            })
+            courseIndex++;
+        }
     }
     //console.log('Full leg convert', leg, result);
     return result;
 }
 
+/**
+ * Checks the given forking array against the include and exclude rules
+ */
+export const checkForkingAllowed = (forkings, includeCombinations, excludeCombinations) => {
+    // check against all combination rules
+    // if the forking contains the "if" variant of the include rule,
+    // then it must contain all "then" variants
+    if(includeCombinations) {
+        for(const combination of includeCombinations) {
+            if(forkings.includes(combination.if)) {
+                if(!combination.then.every(c => forkings.includes(c))) {
+                    return false;
+                }
+            }
+        }
+    }
+    // if the forking contains the "if" variant of the exclude rule,
+    // then it must contain none of the "not" variants
+    if(excludeCombinations) {
+        for(const combination of excludeCombinations) {
+            if(forkings.includes(combination.if)) {
+                if(combination.not.some(c => forkings.includes(c))) {
+                    return false;
+                }
+            }
+        }
+    }
+    return true
+}
+
 
 export const findCourseByName = (courses, name) => courses.find(course => course.courseName === name);
-export const filterCombinationsByLegName = (combinations, name) => {
+export const filterCombinationRulesByLegName = (combinations, name) => {
     return combinations.filter(combination => (combination.leg === name || combination.leg === ''));
 }
 
 /**
- * Returns filtered list of course objects
+ * Creates the needed data for the relay (all legs)
  */
-export const filterCoursesByCombinations = (leg, includeCombinations, excludeCombinations) => {
-    const courseData = getFullCourseDataFromLeg(leg);
-    const usedIncludeCombinations = includeCombinations ? filterCombinationsByLegName(includeCombinations, leg.name) : [];
-    const usedExcludeCombinations = excludeCombinations ? filterCombinationsByLegName(excludeCombinations, leg.name) : [];
-
-    return courseData.filter((course) => {
-        // check against all combination rules
-        // if the forking contains the "if" variant of the include rule,
-        // then it must contain all "then" variants
-        for(const combination of usedIncludeCombinations) {
-            if(course.forkings.includes(combination.if)) {
-                if(!combination.then.every(c => course.forkings.includes(c))) {
-                    return false;
-                }
-            }
-        }
-        // if the forking contains the "if" variant of the exclude rule,
-        // then it must contain none of the "not" variants
-        for(const combination of usedExcludeCombinations) {
-            if(course.forkings.includes(combination.if)) {
-                if(combination.not.some(c => course.forkings.includes(c))) {
-                    return false;
-                }
-            }
-        }
-        return true
-    })
-}
-
 export const createRelayData = (legs, includeCombinations, excludeCombinations) => {
     let data = [];
     for(const leg of legs) {
+        const includeCombinationsForLeg = includeCombinations ? filterCombinationRulesByLegName(includeCombinations, leg.name) : undefined;
+        const excludeCombinationsForLeg = excludeCombinations ? filterCombinationRulesByLegName(excludeCombinations, leg.name) : undefined;
         data.push({
             legName: leg.name,
-            courses: filterCoursesByCombinations(leg, includeCombinations, excludeCombinations)
+            courses: getFullCourseDataFromLeg(leg, includeCombinationsForLeg, excludeCombinationsForLeg)
         });
     }
     return data;

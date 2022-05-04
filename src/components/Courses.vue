@@ -1,39 +1,46 @@
 <script>
+import Relay from './Relay.vue'
 import * as courseFn from '../utils/course';
 import * as csvFn from '../utils/csv';
 import * as hrvData from '../data/hrv2022';
+import * as venla from '../data/2019venla';
 
 export default {
+    components: {
+        Relay
+    },
     data() {
         return {
             relay: undefined,
+            includeCombinations: undefined,
+            excludeCombinations: undefined,
             courseData: [],
             courseHeader: csvFn.getCoursesHeaderRow(),
-            
-        }
+        };
     },
     computed: {
-        legsAreDefinedCorrectly: function() {
+        legsAreDefinedCorrectly: function () {
             return this.relay ? this.relay.legCount === this.relay.legs.length : undefined;
         },
-        forkingsAreDefinedCorrectly: function() {
+        forkingsAreDefinedCorrectly: function () {
             return this.relay ? courseFn.checkForkingsAreDefinedCorrectly(this.relay.legs) : undefined;
         },
     },
     methods: {
-        createCourses: function() {
-            this.courseData = courseFn.createRelayData(this.relay.legs);
+        createCourses: function () {
+            this.courseData = courseFn.createRelayData(this.relay.legs, this.includeCombinations, this.excludeCombinations);
         },
-        toCsv: function(relayName, courseName, length, climb, courseId, controls) {
+        toCsv: function (relayName, courseName, length, climb, courseId, controls) {
             return csvFn.courseToCsvRow(relayName, courseName, length, climb, courseId, controls);
         }
     },
     mounted: function () {
-        this.relay = hrvData.hrv2022;
-        this.createCourses()
-    }
-
-
+        //this.relay = hrvData.hrv2022;
+        this.relay = venla.venla2019;
+        this.excludeCombinations = venla.excludeCombinations;
+        this.createCourses();
+    },
+    components: { Relay }
 }
 </script>
 
@@ -64,6 +71,7 @@ export default {
     </p>
   </template>
 
+  <Relay :courseData="courseData"></Relay>
 </template>
 
 <style scoped>

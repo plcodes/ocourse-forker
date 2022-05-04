@@ -82,6 +82,43 @@ const excludeCombinations = [
     },
 ]
 
+const sampleRelay = {
+    name: 'Test relay',
+    relayClass: 'D',
+    legCount: 3,
+    legs: [
+        {
+            name: 'D1',
+            course: [
+                'L1',
+                {A: [31,32], B: [33,34],C: [44,45]},
+                35, 36,
+                {D: 37, E: 38},
+                39, 'M1'
+            ]
+        },
+        {
+            name: 'D2',
+            course: [
+                'L1',
+                {A: [31,32], B: [33,34],C: [44,45]},
+                35, 36,
+                39, 'M1'
+            ]
+        },
+        {
+            name: 'D3',
+            course: [
+                'L1',
+                {A: [31,32], B: [33,34],C: [44,45]},
+                35, 36,
+                {D: 37, E: 38},
+                39, 'M1'
+            ]
+        },
+    ]
+}
+
 test('Array equals', () => {
     expect(courseFn.arrayEquals([31,32],[31,32])).toBe(true);
     expect(courseFn.arrayEquals([31,32],['31','32'])).toBe(false);
@@ -127,29 +164,27 @@ test('Get course objects', () => {
 })
 
 test('Filter combinations by name', () => {
-    const result1 = courseFn.filterCombinationsByLegName(includeCombinations, 'H1'),
-        result2 =  courseFn.filterCombinationsByLegName(includeCombinations, 'H2');
-    expect(result1, 'H1').toHaveLength(2);
-    expect(result2, 'H2').toHaveLength(6);
+    const rulesForH1 = courseFn.filterCombinationRulesByLegName(includeCombinations, 'H1'),
+        rulesForH2 =  courseFn.filterCombinationRulesByLegName(includeCombinations, 'H2');
+    expect(rulesForH1, 'H1').toHaveLength(2);
+    expect(rulesForH2, 'H2').toHaveLength(6);
 
 })
 
 test('Filter courses by combinations - simple', () => {
-    const allCourseData = courseFn.getFullCourseDataFromLeg(sampleLeg);
-    const filteredCourseData = courseFn.filterCoursesByCombinations(sampleLeg, includeCombinations);
-    expect(Object.keys(allCourseData), 'All possible courses').toHaveLength(4);
-    expect(Object.keys(filteredCourseData), 'Filtered courses').toHaveLength(3);
-    expect(Object.keys(filteredCourseData)).toHaveLength(3);
-    expect(courseFn.findCourseByName(filteredCourseData, 'H1A1B1'), 'H1A1B1').toBeDefined();
-    expect(courseFn.findCourseByName(filteredCourseData, 'H1A1B2'), 'H1A1B2').toBeUndefined();
-    expect(courseFn.findCourseByName(filteredCourseData, 'H1A2B1'), 'H1A2B1').toBeDefined();
-    expect(courseFn.findCourseByName(filteredCourseData, 'H1A2B2'), 'H1A2B2').toBeDefined();
-    expect(courseFn.findCourseByName(filteredCourseData, 'H1AB'), 'H1AB').toBeUndefined();
+    const rulesForLeg = courseFn.filterCombinationRulesByLegName(includeCombinations, sampleLeg.name),
+        courseData = courseFn.getFullCourseDataFromLeg(sampleLeg, rulesForLeg);
+    expect(Object.keys(courseData), 'Filtered courses').toHaveLength(3);
+    expect(courseFn.findCourseByName(courseData, 'H1A1B1'), 'H1A1B1').toBeDefined();
+    expect(courseFn.findCourseByName(courseData, 'H1A1B2'), 'H1A1B2').toBeUndefined();
+    expect(courseFn.findCourseByName(courseData, 'H1A2B1'), 'H1A2B1').toBeDefined();
+    expect(courseFn.findCourseByName(courseData, 'H1A2B2'), 'H1A2B2').toBeDefined();
+    expect(courseFn.findCourseByName(courseData, 'H1AB'), 'H1AB').toBeUndefined();
 })
 
 test('Filter courses by combinations - complex', () => {
-    const allCourseData = courseFn.getFullCourseDataFromLeg(sampleLeg2);
-    const filteredCourseData = courseFn.filterCoursesByCombinations(sampleLeg2, includeCombinations);
+    const rulesForLeg = courseFn.filterCombinationRulesByLegName(includeCombinations, sampleLeg2.name),
+        courseData = courseFn.getFullCourseDataFromLeg(sampleLeg2, rulesForLeg);
     /* 
     all combinations
     A1 B1 C1
@@ -178,26 +213,25 @@ test('Filter courses by combinations - complex', () => {
     A4 B3 C2
     */
 
-    expect(Object.keys(allCourseData), 'All possible courses').toHaveLength(24);
-    expect(Object.keys(filteredCourseData), 'Filtered courses').toHaveLength(11);
-    expect(courseFn.findCourseByName(filteredCourseData, 'H2A1B1C1'), 'H2A1B1C1').toBeDefined();
-    expect(courseFn.findCourseByName(filteredCourseData, 'H2A1B1C2'), 'H2A1B1C2').toBeDefined();
-    expect(courseFn.findCourseByName(filteredCourseData, 'H2A2B2C1'), 'H2A2B2C1').toBeDefined();
-    expect(courseFn.findCourseByName(filteredCourseData, 'H2A2B2C2'), 'H2A2B2C2').toBeDefined();
-    expect(courseFn.findCourseByName(filteredCourseData, 'H2A3B2C1'), 'H2A3B2C1').toBeDefined();
-    expect(courseFn.findCourseByName(filteredCourseData, 'H2A3B2C2'), 'H2A3B2C2').toBeDefined();
+    expect(Object.keys(courseData), 'Filtered courses').toHaveLength(11);
+    expect(courseFn.findCourseByName(courseData, 'H2A1B1C1'), 'H2A1B1C1').toBeDefined();
+    expect(courseFn.findCourseByName(courseData, 'H2A1B1C2'), 'H2A1B1C2').toBeDefined();
+    expect(courseFn.findCourseByName(courseData, 'H2A2B2C1'), 'H2A2B2C1').toBeDefined();
+    expect(courseFn.findCourseByName(courseData, 'H2A2B2C2'), 'H2A2B2C2').toBeDefined();
+    expect(courseFn.findCourseByName(courseData, 'H2A3B2C1'), 'H2A3B2C1').toBeDefined();
+    expect(courseFn.findCourseByName(courseData, 'H2A3B2C2'), 'H2A3B2C2').toBeDefined();
 
-    expect(courseFn.findCourseByName(filteredCourseData, 'H2A4B1C1'), 'H2A4B1C1').toBeDefined();
-    expect(courseFn.findCourseByName(filteredCourseData, 'H2A4B1C2'), 'H2A4B1C2').toBeDefined();
-    expect(courseFn.findCourseByName(filteredCourseData, 'H2A4B2C1'), 'H2A4B2C1').toBeDefined();
-    expect(courseFn.findCourseByName(filteredCourseData, 'H2A4B2C2'), 'H2A4B2C2').toBeDefined();
-    expect(courseFn.findCourseByName(filteredCourseData, 'H2A4B3C1'), 'H2A4B3C1').toBeUndefined();
-    expect(courseFn.findCourseByName(filteredCourseData, 'H2A4B3C2'), 'H2A4B3C2').toBeDefined();
+    expect(courseFn.findCourseByName(courseData, 'H2A4B1C1'), 'H2A4B1C1').toBeDefined();
+    expect(courseFn.findCourseByName(courseData, 'H2A4B1C2'), 'H2A4B1C2').toBeDefined();
+    expect(courseFn.findCourseByName(courseData, 'H2A4B2C1'), 'H2A4B2C1').toBeDefined();
+    expect(courseFn.findCourseByName(courseData, 'H2A4B2C2'), 'H2A4B2C2').toBeDefined();
+    expect(courseFn.findCourseByName(courseData, 'H2A4B3C1'), 'H2A4B3C1').toBeUndefined();
+    expect(courseFn.findCourseByName(courseData, 'H2A4B3C2'), 'H2A4B3C2').toBeDefined();
 })
 
 test('Filter courses by combinations - with exclusions', () => {
-    const allCourseData = courseFn.getFullCourseDataFromLeg(sampleLeg);
-    const filteredCourseData = courseFn.filterCoursesByCombinations(sampleLeg, undefined, excludeCombinations);
+    const excludeRulesForLeg = courseFn.filterCombinationRulesByLegName(excludeCombinations, sampleLeg.name),
+        courseData = courseFn.getFullCourseDataFromLeg(sampleLeg, undefined, excludeRulesForLeg);
     /* 
     all combinations
     A1 B1       - filtered out by rule A1 -> NOT B1
@@ -206,17 +240,18 @@ test('Filter courses by combinations - with exclusions', () => {
     A2 B2       - filtered out by rule A2 -> NOT B1,B2
     */
 
-    expect(Object.keys(allCourseData), 'All possible courses').toHaveLength(4);
-    expect(Object.keys(filteredCourseData), 'Filtered courses').toHaveLength(1);
-    expect(courseFn.findCourseByName(filteredCourseData, 'H1A1B1'), 'H1A1B1').toBeUndefined();
-    expect(courseFn.findCourseByName(filteredCourseData, 'H1A1B2'), 'H1A1B2').toBeDefined();
-    expect(courseFn.findCourseByName(filteredCourseData, 'H1A2B1'), 'H1A2B1').toBeUndefined();
-    expect(courseFn.findCourseByName(filteredCourseData, 'H1A2B2'), 'H1A2B2').toBeUndefined();
+    expect(Object.keys(courseData), 'Filtered courses').toHaveLength(1);
+    expect(courseFn.findCourseByName(courseData, 'H1A1B1'), 'H1A1B1').toBeUndefined();
+    expect(courseFn.findCourseByName(courseData, 'H1A1B2'), 'H1A1B2').toBeDefined();
+    expect(courseFn.findCourseByName(courseData, 'H1A2B1'), 'H1A2B1').toBeUndefined();
+    expect(courseFn.findCourseByName(courseData, 'H1A2B2'), 'H1A2B2').toBeUndefined();
 })
 
 test('Filter courses by include and exclude combinations - complex', () => {
-    const allCourseData = courseFn.getFullCourseDataFromLeg(sampleLeg2);
-    const filteredCourseData = courseFn.filterCoursesByCombinations(sampleLeg2, includeCombinations, excludeCombinations);
+    const includeRulesForLeg = courseFn.filterCombinationRulesByLegName(includeCombinations, sampleLeg2.name),
+        excludeRulesForLeg = courseFn.filterCombinationRulesByLegName(excludeCombinations, sampleLeg2.name),
+        courseData = courseFn.getFullCourseDataFromLeg(sampleLeg2, includeRulesForLeg, excludeRulesForLeg);
+
     /* 
     all combinations
     A1 B1 C1    - should be in, as rule A1 -> NOT B1 is for H1
@@ -245,19 +280,26 @@ test('Filter courses by include and exclude combinations - complex', () => {
     A4 B3 C2
     */
 
-    expect(Object.keys(allCourseData), 'All possible courses').toHaveLength(24);
-    expect(Object.keys(filteredCourseData), 'Filtered courses').toHaveLength(9);
-    expect(courseFn.findCourseByName(filteredCourseData, 'H2A1B1C1'), 'H2A1B1C1').toBeDefined();
-    expect(courseFn.findCourseByName(filteredCourseData, 'H2A1B1C2'), 'H2A1B1C2').toBeDefined();
-    expect(courseFn.findCourseByName(filteredCourseData, 'H2A2B2C1'), 'H2A2B2C1').toBeUndefined();
-    expect(courseFn.findCourseByName(filteredCourseData, 'H2A2B2C2'), 'H2A2B2C2').toBeUndefined();
-    expect(courseFn.findCourseByName(filteredCourseData, 'H2A3B2C1'), 'H2A3B2C1').toBeDefined();
-    expect(courseFn.findCourseByName(filteredCourseData, 'H2A3B2C2'), 'H2A3B2C2').toBeDefined();
+    expect(Object.keys(courseData), 'Filtered courses').toHaveLength(9);
+    expect(courseFn.findCourseByName(courseData, 'H2A1B1C1'), 'H2A1B1C1').toBeDefined();
+    expect(courseFn.findCourseByName(courseData, 'H2A1B1C2'), 'H2A1B1C2').toBeDefined();
+    expect(courseFn.findCourseByName(courseData, 'H2A2B2C1'), 'H2A2B2C1').toBeUndefined();
+    expect(courseFn.findCourseByName(courseData, 'H2A2B2C2'), 'H2A2B2C2').toBeUndefined();
+    expect(courseFn.findCourseByName(courseData, 'H2A3B2C1'), 'H2A3B2C1').toBeDefined();
+    expect(courseFn.findCourseByName(courseData, 'H2A3B2C2'), 'H2A3B2C2').toBeDefined();
 
-    expect(courseFn.findCourseByName(filteredCourseData, 'H2A4B1C1'), 'H2A4B1C1').toBeDefined();
-    expect(courseFn.findCourseByName(filteredCourseData, 'H2A4B1C2'), 'H2A4B1C2').toBeDefined();
-    expect(courseFn.findCourseByName(filteredCourseData, 'H2A4B2C1'), 'H2A4B2C1').toBeDefined();
-    expect(courseFn.findCourseByName(filteredCourseData, 'H2A4B2C2'), 'H2A4B2C2').toBeDefined();
-    expect(courseFn.findCourseByName(filteredCourseData, 'H2A4B3C1'), 'H2A4B3C1').toBeUndefined();
-    expect(courseFn.findCourseByName(filteredCourseData, 'H2A4B3C2'), 'H2A4B3C2').toBeDefined();
+    expect(courseFn.findCourseByName(courseData, 'H2A4B1C1'), 'H2A4B1C1').toBeDefined();
+    expect(courseFn.findCourseByName(courseData, 'H2A4B1C2'), 'H2A4B1C2').toBeDefined();
+    expect(courseFn.findCourseByName(courseData, 'H2A4B2C1'), 'H2A4B2C1').toBeDefined();
+    expect(courseFn.findCourseByName(courseData, 'H2A4B2C2'), 'H2A4B2C2').toBeDefined();
+    expect(courseFn.findCourseByName(courseData, 'H2A4B3C1'), 'H2A4B3C1').toBeUndefined();
+    expect(courseFn.findCourseByName(courseData, 'H2A4B3C2'), 'H2A4B3C2').toBeDefined();
+})
+
+test('Check full relay data', () => {
+    const relayData = courseFn.createRelayData(sampleRelay.legs);
+    expect(relayData.length).toBe(3);
+    expect(relayData[0].courses.length, 'D1 courses').toBe(6)
+    expect(relayData[1].courses.length, 'D2 courses').toBe(3)
+    expect(relayData[2].courses.length, 'D3 courses').toBe(6)
 })
