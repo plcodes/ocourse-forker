@@ -1,6 +1,6 @@
 <script>
-import * as courseFn from '../utils/course';
 import * as relayFn from '../utils/relay';
+import * as csvFn from '../utils/csv';
 
 export default {
     props: [
@@ -8,27 +8,42 @@ export default {
     ],
     data() {
         return {
+            validCombinations: undefined,
+            relayData: undefined,
+            teamData: undefined
         }
     },
     computed: {
     },
     methods: {
-        getUsedForkingsForLeg: function() {
-            return relayFn.getUsedForkingsForLeg(relayFn.getLegFromCourseData(this.courseData, 'H1'))
+        createRelayCourses: function() {
+            this.validCombinations = relayFn.getValidTeamCombinations(this.courseData);
+            this.relayData = relayFn.mapRelayCoursesToContainFullData(this.validCombinations, this.courseData);
+            this.teamData = this.relayData.map(function(teamCourse, index) {
+                return {
+                    number: index+1,
+                    name: 'Joukkue '+(index+1),
+                    courses: teamCourse
+                }
+            })
         },
-        getAllCombinations: function() {
-            return relayFn.getAllCombinations(this.courseData);
+        toNamesCsv: function (teamForking) {
+            return csvFn.teamForkingNamesToCsvRowPart(teamForking);
         },
-        getAllValidCombinations: function() {
-            return relayFn.getAllValidCombinations(this.courseData);
-        }
+        toIdsCsv: function (teamForking) {
+            return csvFn.teamForkingIdsToCsvRowPart(teamForking);
+        },
     }
 }
 </script>
 
 <template>
   <h2>Relay</h2>
-  <template v-if="courseData">
-    <code>{{getAllValidCombinations()}}</code>
-  </template>
+  <button type="button" v-on:click="createRelayCourses">Create relay courses</button>
+  <br>
+  <code v-if="relayData">
+    <template v-for="(team, index) in teamData">
+        {{team.number}};{{team.name}};{{toNamesCsv(team.courses)}};{{toIdsCsv(team.courses)}};<br>
+    </template>
+  </code>
 </template>

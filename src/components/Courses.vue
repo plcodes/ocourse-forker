@@ -15,7 +15,7 @@ export default {
             includeCombinations: undefined,
             excludeCombinations: undefined,
             courseData: [],
-            courseHeader: csvFn.getCoursesHeaderRow(),
+            courseHeader: csvFn.COURSE_HEADER_ROW,
         };
     },
     computed: {
@@ -57,12 +57,12 @@ export default {
 
     <h2>Course csvs:</h2>
     <code v-if="courseData">
-    {{courseHeader}}<br>
-    <template v-for="(leg, index) in courseData">
-        <template v-for="course in leg.courses" key="course.courseName">
-            {{toCsv(relay.name, course.courseName, '', '', course.courseId, course.controls)}}<br>
+        {{courseHeader}}<br>
+        <template v-for="(leg, index) in courseData">
+            <template v-for="course in leg.courses" key="course.courseName">
+                {{toCsv(relay.name, course.courseName, '', '', course.courseId, course.controls)}}<br>
+            </template>
         </template>
-    </template>
     </code>
 
     <h2>Forking amounts</h2>

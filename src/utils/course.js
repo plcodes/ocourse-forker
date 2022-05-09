@@ -99,6 +99,7 @@ export const cartesian = (a) => a.reduce((a, b) => a.flatMap(d => b.map(e => [d,
  *          courseName: 'H1A1B1',
  *          definition: ['L1', 'A1', 72, 73, 'B1', 75, 'M'],
  *          forkings: [ 'A1', 'B1' ],
+ *          forkingId: 'A1B1',
  *          controls: ['L1', 31,  32, 72, 73, 35, 75, 'M']
  *      },
  *      {
@@ -133,6 +134,7 @@ export const getFullCourseDataFromLeg = (leg, includeCombinationsForLeg, exclude
                 courseName: leg.name + variantControls.join(''),
                 definition: variant,
                 forkings: variantControls,
+                forkingId: variantControls.join(''),
                 controls: variantCourse.flat()
             })
             courseIndex++;

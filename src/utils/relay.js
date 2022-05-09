@@ -1,4 +1,4 @@
-const uniqueValues = (array) => [...new Set(array)];
+const uniqueValues = (array) => [...new Set(array)].sort();
 
 export const getLegFromCourseData = (courseData = [], legName) => {
     return courseData.find(leg => leg.legName === legName)
@@ -36,16 +36,103 @@ const getFullForkingsFromAllCombinations = (allCombinations = []) => {
     return uniqueValues(allCombinations.flat().flat())
 }
 
-export const cartesian = (a) => a.reduce((a, b) => a.flatMap(d => b.map(e => [d, e].flat())));
+export const cartesianProductFromAllLegs = (array) => {
+    return array.reduce(
+        (a, b) => a.flatMap((x) => b.map((y) => [...x, y])),
+        [[]]
+    );
+} 
+
 export const arrayContainsAll = (a,b) => a.length === b.length && a.every(value => b.includes(value));
 
-export const getAllValidCombinations = (courseData = []) => {
+/**
+ * Get all valid combinations for the full relay
+ * Example:
+ * Parameter courseData:
+ * [
+ *  {
+ *      legName: V1,
+ *      courses: [Array(24)]
+ *  },
+ *  {
+ *      legName: V2,
+ *      courses: [Array(24)]
+ *  },
+ *  {
+ *      legName: V3,
+ *      courses: [Array(24)]
+ *  },
+ *  {
+ *      legName: V4,
+ *      courses: [Array(8)]
+ *  },
+ * ]
+ * 
+ * Returns Array[384]:
+ * [
+ *   [
+ *    [ 'A1', 'C', 'E' ],
+ *    [ 'B1', 'D', 'F' ],
+ *    [ 'B2', 'H', 'B', 'G' ],
+ *    [ 'A2', 'I', 'A' ]
+ *  ],
+ *  [
+ *    [ 'A1', 'C', 'E' ],
+ *    [ 'B1', 'D', 'F' ],
+ *    [ 'B2', 'I', 'B', 'G' ],
+ *    [ 'A2', 'H', 'A' ]
+ *  ],
+ *  ...
+ * ]
+ */
+export const getValidTeamCombinations = (courseData = []) => {
     if(!courseData || courseData.length == 0) return;
-    const allCombinations = getAllCombinations(courseData),
-        allPossibleCombinations = cartesian(allCombinations),
-        fullForkings = getFullForkingsFromAllCombinations(allCombinations);
-
+    
+    const allCoursesForLegs = getAllCombinations(courseData),
+        allPossibleCombinations = cartesianProductFromAllLegs(allCoursesForLegs),
+        fullForkings = getFullForkingsFromAllCombinations(allCoursesForLegs);
+    
     return allPossibleCombinations.filter(course => {
-        return arrayContainsAll(uniqueValues(course),fullForkings)
+        return arrayContainsAll(uniqueValues(course.flat()),fullForkings)
     });
 }
+
+
+export const createCourseObjectsMapByCourseName = (courseData) => {
+    let map = new Map();
+    for(const legCourses of courseData) {
+        for(const course of legCourses.courses) {
+            map.set(course.courseName, course);
+        }
+    }
+    return map;
+}
+
+export const createCourseObjectsMapPerLegByForkingId = (courseData) => {
+    let legs = [];
+    for(const legCourses of courseData) {
+        let map = new Map();
+        for(const course of legCourses.courses) {
+            map.set(course.forkingId, course);
+        }
+        legs.push(map);
+    }
+    return legs;
+}
+
+/**
+ * Map the valid relay combinations from forking arrays to full course data containing e.g. course id and course name
+ */
+export const mapRelayCoursesToContainFullData = (teamForkings, courseData = []) => {
+    const courseObjectsMapsPerLegs = createCourseObjectsMapPerLegByForkingId(courseData);
+    let result = [];
+
+    for(const teamForking of teamForkings) {
+        result.push(teamForking.map(function(courseForking, index) {
+            return courseObjectsMapsPerLegs[index].get(courseForking.join(''));
+        }))
+    }
+    return result;
+
+}
+

@@ -1,6 +1,7 @@
 import { assert, expect, test } from 'vitest'
 import * as courseFn from '../utils/course';
 import * as relayFn from '../utils/relay';
+import * as venla from '../data/2019venla';
 
 const sampleForkings = [
     [['A1','A2'], ['B1','B2']],
@@ -28,6 +29,7 @@ const sampleCourseData = [
                 courseName: 'H1A',
                 definition: ['L1','A','M1'],
                 forkings: ['A'],
+                forkingId: 'A',
                 controls: ['L1', 31, 'M1']
             },
             {
@@ -36,6 +38,7 @@ const sampleCourseData = [
                 courseName: 'H1B',
                 definition: ['L1','B','M1'],
                 forkings: ['B'],
+                forkingId: 'B',
                 controls: ['L1', 32, 'M1']
             },
             {
@@ -44,6 +47,7 @@ const sampleCourseData = [
                 courseName: 'H1C',
                 definition: ['L1','C','M1'],
                 forkings: ['C'],
+                forkingId: 'C',
                 controls: ['L1', 33, 'M1']
             },
         ]
@@ -57,6 +61,7 @@ const sampleCourseData = [
                 courseName: 'H2A',
                 definition: ['L1','A','M1'],
                 forkings: ['A'],
+                forkingId: 'A',
                 controls: ['L1', 31, 'M1']
             },
             {
@@ -65,6 +70,7 @@ const sampleCourseData = [
                 courseName: 'H2B',
                 definition: ['L1','B','M1'],
                 forkings: ['B'],
+                forkingId: 'B',
                 controls: ['L1', 32, 'M1']
             },
             {
@@ -73,6 +79,7 @@ const sampleCourseData = [
                 courseName: 'H2C',
                 definition: ['L1','C','M1'],
                 forkings: ['C'],
+                forkingId: 'C',
                 controls: ['L1', 33, 'M1']
             },
         ]
@@ -86,6 +93,7 @@ const sampleCourseData = [
                 courseName: 'H3A',
                 definition: ['L1','A','M1'],
                 forkings: ['A'],
+                forkingId: 'A',
                 controls: ['L1', 31, 'M1']
             },
             {
@@ -94,6 +102,7 @@ const sampleCourseData = [
                 courseName: 'H3B',
                 definition: ['L1','B','M1'],
                 forkings: ['B'],
+                forkingId: 'B',
                 controls: ['L1', 32, 'M1']
             },
             {
@@ -102,6 +111,7 @@ const sampleCourseData = [
                 courseName: 'H3C',
                 definition: ['L1','C','M1'],
                 forkings: ['C'],
+                forkingId: 'C',
                 controls: ['L1', 33, 'M1']
             },
         ]
@@ -120,14 +130,47 @@ test('Cartesian product from forkings', () => {
         .toEqual('[["A1","A2","C1","C2"],["A1","A2","D1","D2"],["B1","B2","C1","C2"],["B1","B2","D1","D2"]]')
 })
 
-test('All forkings', () => {
-    const allForkings = courseFn.cartesian(sampleForkingsForRelay);
+test('All team combinations', () => {
+    const allTeamCombinations = courseFn.cartesian(sampleForkingsForRelay);
     //console.log('allForkings', allForkings);
-    expect(allForkings.length).toBe(3*3*3);
+    expect(allTeamCombinations.length).toBe(3*3*3);
 })
 
-test('All valid forkings', () => {
-    const allValid = relayFn.getAllValidCombinations(sampleCourseData);
+test('All valid team combinations', () => {
+    const validTeamCombinations = relayFn.getValidTeamCombinations(sampleCourseData);
     //console.log('valid ones', allValid);
-    expect(allValid.length).toBe(6);
+    expect(validTeamCombinations.length).toBe(6);
 })
+
+test('Course object map', () => {
+    const courseObjectsMap = relayFn.createCourseObjectsMapByCourseName(sampleCourseData);
+    const course = courseObjectsMap.get('H3C');
+    expect(course.legName).toBe('H3');
+    expect(course.courseId).toBe('H303');
+})
+
+test('All team combinations as objects', () => {
+    const teamCombinations = relayFn.getValidTeamCombinations(sampleCourseData);
+    const teamCombinationsFullData = relayFn.mapRelayCoursesToContainFullData(teamCombinations,sampleCourseData);
+    expect(teamCombinationsFullData.length).toBe(6);
+    expect(teamCombinationsFullData[0][0].legName).toBe('H1');
+    expect(teamCombinationsFullData[0][0].courseId).toBe('H101');
+    expect(teamCombinationsFullData[0][0].courseName).toBe('H1A');
+
+    expect(teamCombinationsFullData[5][1].legName).toBe('H2');
+    expect(teamCombinationsFullData[5][1].courseId).toBe('H202');
+    expect(teamCombinationsFullData[5][1].courseName).toBe('H2B');
+
+})
+
+test('Venla 2019', () => {
+    const courseData = courseFn.createRelayData(venla.venla2019.legs, undefined, venla.excludeCombinations);
+    //console.log('Venla data', courseData);
+    const teamCombinations = relayFn.getValidTeamCombinations(courseData);
+    expect(teamCombinations.length).toBe(384);
+    //console.log('valid ones', allValid);
+    const teamCombinationsFullData = relayFn.mapRelayCoursesToContainFullData(teamCombinations, courseData);
+    expect(teamCombinationsFullData.length).toBe(384);
+    //console.log('full Venla', allValidObjects);
+})
+
