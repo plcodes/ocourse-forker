@@ -111,7 +111,7 @@ export const cartesian = (a) => a.reduce((a, b) => a.flatMap(d => b.map(e => [d,
  *   ]
  * }
 */
-export const getFullCourseDataFromLeg = (leg, includeCombinationsForLeg, excludeCombinationsForLeg) => {
+export const getFullCourseDataFromLeg = (leg, forkingRules) => {
     let result = [];
     const forkingsById = getAllForkingsObject(leg.course);
     const allCourseVariants = cartesian(getCourseWithForkingIds(leg.course));
@@ -127,7 +127,7 @@ export const getFullCourseDataFromLeg = (leg, includeCombinationsForLeg, exclude
                 variantCourse.push(routepart);
             }
         }
-        if(checkForkingAllowed(variantControls, includeCombinationsForLeg, excludeCombinationsForLeg)) {
+        if(checkForkingAllowed(variantControls, forkingRules)) {
             result.push({
                 legName: leg.name,
                 courseId: leg.name + toTwoDigits(courseIndex),
@@ -147,25 +147,17 @@ export const getFullCourseDataFromLeg = (leg, includeCombinationsForLeg, exclude
 /**
  * Checks the given forking array against the include and exclude rules
  */
-export const checkForkingAllowed = (forkings, includeCombinations, excludeCombinations) => {
+export const checkForkingAllowed = (forkings, forkingRules) => {
     // check against all combination rules
-    // if the forking contains the "if" variant of the include rule,
-    // then it must contain all "then" variants
-    if(includeCombinations) {
-        for(const combination of includeCombinations) {
+    // if the forking contains the "if" variant of the rule,
+    //  - it must contain all "then" variants
+    //  - it must contain none of the "not" variants
+    if(forkingRules) {
+        for(const combination of forkingRules) {
             if(forkings.includes(combination.if)) {
-                if(!combination.then.every(c => forkings.includes(c))) {
+                if(combination.then && !combination.then.every(c => forkings.includes(c))) {
                     return false;
-                }
-            }
-        }
-    }
-    // if the forking contains the "if" variant of the exclude rule,
-    // then it must contain none of the "not" variants
-    if(excludeCombinations) {
-        for(const combination of excludeCombinations) {
-            if(forkings.includes(combination.if)) {
-                if(combination.not.some(c => forkings.includes(c))) {
+                } else if(combination.not && combination.not.some(c => forkings.includes(c))) {
                     return false;
                 }
             }
@@ -183,14 +175,13 @@ export const filterCombinationRulesByLegName = (combinations, name) => {
 /**
  * Creates the needed data for the relay (all legs)
  */
-export const createRelayData = (legs, includeCombinations, excludeCombinations) => {
+export const createRelayData = (legs, forkingRules) => {
     let data = [];
     for(const leg of legs) {
-        const includeCombinationsForLeg = includeCombinations ? filterCombinationRulesByLegName(includeCombinations, leg.name) : undefined;
-        const excludeCombinationsForLeg = excludeCombinations ? filterCombinationRulesByLegName(excludeCombinations, leg.name) : undefined;
+        const forkingRulesForLeg = forkingRules ? filterCombinationRulesByLegName(forkingRules, leg.name) : undefined;
         data.push({
             legName: leg.name,
-            courses: getFullCourseDataFromLeg(leg, includeCombinationsForLeg, excludeCombinationsForLeg)
+            courses: getFullCourseDataFromLeg(leg, forkingRulesForLeg)
         });
     }
     return data;

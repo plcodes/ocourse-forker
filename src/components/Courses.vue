@@ -12,8 +12,6 @@ export default {
     data() {
         return {
             relay: undefined,
-            includeCombinations: undefined,
-            excludeCombinations: undefined,
             courseData: [],
             courseHeader: csvFn.COURSE_HEADER_ROW,
         };
@@ -28,16 +26,14 @@ export default {
     },
     methods: {
         createCourses: function () {
-            this.courseData = courseFn.createRelayData(this.relay.legs, this.includeCombinations, this.excludeCombinations);
+            this.courseData = courseFn.createRelayData(this.relay.legs, this.relay.forkingRules);
         },
         toCsv: function (relayName, courseName, length, climb, courseId, controls) {
             return csvFn.courseToCsvRow(relayName, courseName, length, climb, courseId, controls);
         }
     },
     mounted: function () {
-        //this.relay = hrvData.hrv2022;
         this.relay = venla.venla2019;
-        this.excludeCombinations = venla.excludeCombinations;
         this.createCourses();
     },
     components: { Relay }

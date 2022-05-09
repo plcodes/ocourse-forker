@@ -164,7 +164,7 @@ test('All team combinations as objects', () => {
 })
 
 test('Venla 2019', () => {
-    const courseData = courseFn.createRelayData(venla.venla2019.legs, undefined, venla.excludeCombinations);
+    const courseData = courseFn.createRelayData(venla.venla2019.legs, venla.venla2019.forkingRules);
     //console.log('Venla data', courseData);
     const teamCombinations = relayFn.getValidTeamCombinations(courseData);
     expect(teamCombinations.length).toBe(384);

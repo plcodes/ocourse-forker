@@ -1,7 +1,7 @@
 import { assert, expect, test } from 'vitest'
 import * as courseFn from '../utils/course';
 
-const sampleLeg = {
+const simpleLeg = {
     name: 'H1',
     course: [
         'L1',
@@ -11,7 +11,7 @@ const sampleLeg = {
         75, 
         'M'
     ]}
-const sampleLeg2 = {
+const complexLeg = {
     name: 'H2',
     course: [
         'L1',
@@ -22,7 +22,7 @@ const sampleLeg2 = {
         75, 
         'M'
     ]}
-const invalidSampleLeg = {
+const invalidLeg = {
     name: 'H2',
     course: [
         'L1',
@@ -31,7 +31,14 @@ const invalidSampleLeg = {
         'M'
     ]}
 
-const includeCombinations = [
+const simpleForkingRules = [
+    {
+        leg: '',
+        if: 'A1',
+        then: ['B1']
+    },
+]    
+const complexForkingRules = [
     {
         leg: '',
         if: 'A1',
@@ -62,9 +69,6 @@ const includeCombinations = [
         if: 'S',
         then: ['T','V']
     },
-]
-
-const excludeCombinations = [
     {
         leg: 'H1',
         if: 'A1',
@@ -127,16 +131,16 @@ test('Array equals', () => {
 })
 
 test('Forkings are defined correctly', () => {
-    const check1 = courseFn.checkForkingsAreDefinedCorrectly([sampleLeg]);
+    const check1 = courseFn.checkForkingsAreDefinedCorrectly([simpleLeg]);
     expect(check1.status).toBe(true);
     expect(check1.msg).eq('')
-    const check2 = courseFn.checkForkingsAreDefinedCorrectly([invalidSampleLeg]);
+    const check2 = courseFn.checkForkingsAreDefinedCorrectly([invalidLeg]);
     expect(check2.status).toBe(false);
     expect(check2.msg).not.eq('')
 })
 
 test('Get all forkings object', () => {
-    const result = courseFn.getAllForkingsObject(sampleLeg.course);
+    const result = courseFn.getAllForkingsObject(simpleLeg.course);
     expect(Object.keys(result)).toHaveLength(4);
     expect(Object.keys(result)).toContain('A1');
     expect(Object.keys(result)).toContain('A2');
@@ -154,7 +158,7 @@ test('Get course objects', () => {
     A2 B1
     A2 B2
     */
-    const courseData = courseFn.getFullCourseDataFromLeg(sampleLeg);
+    const courseData = courseFn.getFullCourseDataFromLeg(simpleLeg);
     expect(Object.keys(courseData)).toHaveLength(4);
     expect(courseFn.findCourseByName(courseData, 'H1A1B1'), 'H1A1B1').toBeDefined();
     expect(courseFn.findCourseByName(courseData, 'H1A1B2'), 'H1A1B2').toBeDefined();
@@ -164,16 +168,24 @@ test('Get course objects', () => {
 })
 
 test('Filter combinations by name', () => {
-    const rulesForH1 = courseFn.filterCombinationRulesByLegName(includeCombinations, 'H1'),
-        rulesForH2 =  courseFn.filterCombinationRulesByLegName(includeCombinations, 'H2');
-    expect(rulesForH1, 'H1').toHaveLength(2);
-    expect(rulesForH2, 'H2').toHaveLength(6);
+    const rulesForH1 = courseFn.filterCombinationRulesByLegName(complexForkingRules, 'H1'),
+        rulesForH2 =  courseFn.filterCombinationRulesByLegName(complexForkingRules, 'H2');
+    expect(rulesForH1, 'H1').toHaveLength(5);
+    expect(rulesForH2, 'H2').toHaveLength(8);
 
 })
 
 test('Filter courses by combinations - simple', () => {
-    const rulesForLeg = courseFn.filterCombinationRulesByLegName(includeCombinations, sampleLeg.name),
-        courseData = courseFn.getFullCourseDataFromLeg(sampleLeg, rulesForLeg);
+    const rulesForLeg = courseFn.filterCombinationRulesByLegName(simpleForkingRules, simpleLeg.name),
+        courseData = courseFn.getFullCourseDataFromLeg(simpleLeg, rulesForLeg);
+    /* 
+    all combinations
+    A1 B1 
+    A1 B2   - filtered out by rule A1 -> B1
+    A2 B1   - filtered out by rule A2 -> B2
+    A2 B2
+    */
+
     expect(Object.keys(courseData), 'Filtered courses').toHaveLength(3);
     expect(courseFn.findCourseByName(courseData, 'H1A1B1'), 'H1A1B1').toBeDefined();
     expect(courseFn.findCourseByName(courseData, 'H1A1B2'), 'H1A1B2').toBeUndefined();
@@ -182,75 +194,9 @@ test('Filter courses by combinations - simple', () => {
     expect(courseFn.findCourseByName(courseData, 'H1AB'), 'H1AB').toBeUndefined();
 })
 
-test('Filter courses by combinations - complex', () => {
-    const rulesForLeg = courseFn.filterCombinationRulesByLegName(includeCombinations, sampleLeg2.name),
-        courseData = courseFn.getFullCourseDataFromLeg(sampleLeg2, rulesForLeg);
-    /* 
-    all combinations
-    A1 B1 C1
-    A1 B1 C2
-    A1 B2 C1    - filtered out by rule A1 -> B1
-    A1 B2 C2    - filtered out by rule A1 -> B1
-    A1 B3 C1    - filtered out by rule A1 -> B1
-    A1 B3 C2    - filtered out by rule A1 -> B1
-    A2 B1 C1    - filtered out by rule A2 -> B2
-    A2 B1 C2    - filtered out by rule A2 -> B2
-    A2 B2 C1
-    A2 B2 C2
-    A2 B3 C1    - filtered out by rule A2 -> B2
-    A2 B3 C2    - filtered out by rule A2 -> B2
-    A3 B1 C1    - filtered out by rule A3 -> B2
-    A3 B1 C2    - filtered out by rule A3 -> B2
-    A3 B2 C1
-    A3 B2 C2
-    A3 B3 C1    - filtered out by rule A3 -> B2
-    A3 B3 C2    - filtered out by rule A3 -> B2
-    A4 B1 C1
-    A4 B1 C2
-    A4 B2 C1
-    A4 B2 C2
-    A4 B3 C1    - filtered out by rule B3 -> A4,C2
-    A4 B3 C2
-    */
-
-    expect(Object.keys(courseData), 'Filtered courses').toHaveLength(11);
-    expect(courseFn.findCourseByName(courseData, 'H2A1B1C1'), 'H2A1B1C1').toBeDefined();
-    expect(courseFn.findCourseByName(courseData, 'H2A1B1C2'), 'H2A1B1C2').toBeDefined();
-    expect(courseFn.findCourseByName(courseData, 'H2A2B2C1'), 'H2A2B2C1').toBeDefined();
-    expect(courseFn.findCourseByName(courseData, 'H2A2B2C2'), 'H2A2B2C2').toBeDefined();
-    expect(courseFn.findCourseByName(courseData, 'H2A3B2C1'), 'H2A3B2C1').toBeDefined();
-    expect(courseFn.findCourseByName(courseData, 'H2A3B2C2'), 'H2A3B2C2').toBeDefined();
-
-    expect(courseFn.findCourseByName(courseData, 'H2A4B1C1'), 'H2A4B1C1').toBeDefined();
-    expect(courseFn.findCourseByName(courseData, 'H2A4B1C2'), 'H2A4B1C2').toBeDefined();
-    expect(courseFn.findCourseByName(courseData, 'H2A4B2C1'), 'H2A4B2C1').toBeDefined();
-    expect(courseFn.findCourseByName(courseData, 'H2A4B2C2'), 'H2A4B2C2').toBeDefined();
-    expect(courseFn.findCourseByName(courseData, 'H2A4B3C1'), 'H2A4B3C1').toBeUndefined();
-    expect(courseFn.findCourseByName(courseData, 'H2A4B3C2'), 'H2A4B3C2').toBeDefined();
-})
-
-test('Filter courses by combinations - with exclusions', () => {
-    const excludeRulesForLeg = courseFn.filterCombinationRulesByLegName(excludeCombinations, sampleLeg.name),
-        courseData = courseFn.getFullCourseDataFromLeg(sampleLeg, undefined, excludeRulesForLeg);
-    /* 
-    all combinations
-    A1 B1       - filtered out by rule A1 -> NOT B1
-    A1 B2       
-    A2 B1       - filtered out by rule A2 -> NOT B1,B2
-    A2 B2       - filtered out by rule A2 -> NOT B1,B2
-    */
-
-    expect(Object.keys(courseData), 'Filtered courses').toHaveLength(1);
-    expect(courseFn.findCourseByName(courseData, 'H1A1B1'), 'H1A1B1').toBeUndefined();
-    expect(courseFn.findCourseByName(courseData, 'H1A1B2'), 'H1A1B2').toBeDefined();
-    expect(courseFn.findCourseByName(courseData, 'H1A2B1'), 'H1A2B1').toBeUndefined();
-    expect(courseFn.findCourseByName(courseData, 'H1A2B2'), 'H1A2B2').toBeUndefined();
-})
-
 test('Filter courses by include and exclude combinations - complex', () => {
-    const includeRulesForLeg = courseFn.filterCombinationRulesByLegName(includeCombinations, sampleLeg2.name),
-        excludeRulesForLeg = courseFn.filterCombinationRulesByLegName(excludeCombinations, sampleLeg2.name),
-        courseData = courseFn.getFullCourseDataFromLeg(sampleLeg2, includeRulesForLeg, excludeRulesForLeg);
+    const rulesForLeg = courseFn.filterCombinationRulesByLegName(complexForkingRules, complexLeg.name),
+        courseData = courseFn.getFullCourseDataFromLeg(complexLeg, rulesForLeg);
 
     /* 
     all combinations

@@ -69,28 +69,28 @@ export const venla2019 = {
                 333, 'V10', 'M1'
             ]
         }
+    ],
+    forkingRules: [
+        {
+            leg: 'V3',
+            if: 'A',
+            not: ['B1','B2']
+        },
+        {
+            leg: 'V3',
+            if: 'B',
+            not: ['A1','A2']
+        },
+        {
+            leg: 'V4',
+            if: 'A',
+            not: ['B1','B2']
+        },
+        {
+            leg: 'V4',
+            if: 'B',
+            not: ['A1','A2']
+        },
     ]
 }
 
-export const excludeCombinations = [
-    {
-        leg: 'V3',
-        if: 'A',
-        not: ['B1','B2']
-    },
-    {
-        leg: 'V3',
-        if: 'B',
-        not: ['A1','A2']
-    },
-    {
-        leg: 'V4',
-        if: 'A',
-        not: ['B1','B2']
-    },
-    {
-        leg: 'V4',
-        if: 'B',
-        not: ['A1','A2']
-    },
-]
