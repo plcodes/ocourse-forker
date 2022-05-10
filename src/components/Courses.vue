@@ -14,6 +14,7 @@ export default {
             relay: undefined,
             courseData: [],
             courseHeader: csvFn.COURSE_HEADER_ROW,
+            readyCourseData: []
         };
     },
     computed: {
@@ -30,13 +31,17 @@ export default {
         },
         toCsv: function (relayName, courseName, length, climb, courseId, controls) {
             return csvFn.courseToCsvRow(relayName, courseName, length, climb, courseId, controls);
+        },
+        createRelayCourses: function() {
+            this.readyCourseData = this.courseData;
         }
+        
     },
     mounted: function () {
-        this.relay = venla.venla2019;
+        //this.relay = venla.venla2019;
+        this.relay = hrvData.hrv2022_H;
         this.createCourses();
-    },
-    components: { Relay }
+    }
 }
 </script>
 
@@ -62,12 +67,15 @@ export default {
     </code>
 
     <h2>Forking amounts</h2>
-    <p v-for="(leg, index) in courseData">
+    <div v-for="(leg, index) in courseData">
         {{leg.legName}}: {{leg.courses.length}}
-    </p>
+    </div>
   </template>
 
-  <Relay :courseData="courseData"></Relay>
+  <button type="button" v-on:click="createRelayCourses">Create relay courses</button><br>
+
+
+  <Relay :courseData="readyCourseData"></Relay>
 </template>
 
 <style scoped>

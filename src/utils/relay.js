@@ -123,7 +123,7 @@ export const createCourseObjectsMapPerLegByForkingId = (courseData) => {
 /**
  * Map the valid relay combinations from forking arrays to full course data containing e.g. course id and course name
  */
-export const mapRelayCoursesToContainFullData = (teamForkings, courseData = []) => {
+export const mapRelayCoursesToContainFullData = (teamForkings = [], courseData = []) => {
     const courseObjectsMapsPerLegs = createCourseObjectsMapPerLegByForkingId(courseData);
     let result = [];
 
