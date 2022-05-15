@@ -61,7 +61,7 @@ export default {
         {{courseHeader}}<br>
         <template v-for="(leg, index) in courseData">
             <template v-for="course in leg.courses" key="course.courseName">
-                {{toCsv(relay.name, course.courseName, '', '', course.courseId, course.controls)}}<br>
+                {{toCsv(course.legDisplayName, course.courseName, '', '', course.courseId, course.controls)}}<br>
             </template>
         </template>
     </code>

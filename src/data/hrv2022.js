@@ -5,9 +5,10 @@ export const hrv2022_H = {
     legs: [
         {
             name: 'H1',
+            displayName: 'H 1. osuus',
             course: [
                 'V1', 'L1',
-                {A: [81,76], B: [70,82],C: [75,77]},
+                {A: [81,76], B: [70,80],C: [75,77]},
                 71,
                 {D: [53,43,32], E: [38,39,55]},
                 72,
@@ -19,9 +20,10 @@ export const hrv2022_H = {
         },
         {
             name: 'H2',
+            displayName: 'H 2. osuus',
             course: [
                 'V1', 'L1',
-                {A: [81,76], B: [70,82],C: [75,77]},
+                {A: [81,76], B: [70,80],C: [75,77]},
                 71,
                 37, 60,
                 {H: 40, I: 35}, 
@@ -33,9 +35,10 @@ export const hrv2022_H = {
         },
         {
             name: 'H3',
+            displayName: 'H 3. osuus',
             course: [
                 'V1', 'L1',
-                {A: [81,76], B: [70,82],C: [75,77]},
+                {A: [81,76], B: [70,80],C: [75,77]},
                 71,
                 {D: [53,43,32], E: [38,39,55]},
                 72,
@@ -49,37 +52,6 @@ export const hrv2022_H = {
         },
     ],
     forkingRules: [
-        /*
-        {
-            leg: 'H1',
-            if: 'A',
-            then: ['G']
-        },
-        {
-            leg: 'H1',
-            if: 'B',
-            then: ['F']
-        },
-        {
-            leg: 'H1',
-            if: 'C',
-            then: ['G']
-        },
-        /*{
-            leg: 'H2',
-            if: 'A',
-            then: ['F']
-        },
-        {
-            leg: 'H2',
-            if: 'B',
-            then: ['G']
-        },
-        {
-            leg: 'H2',
-            if: 'C',
-            then: ['F']
-        },*/
         {
             leg: 'H3',
             if: 'A',
@@ -106,6 +78,7 @@ export const hrv2022_D = {
     legs: [
         {
             name: 'D1',
+            displayName: 'D 1. osuus',
             course: [
                 'V1', 'L1',
                 {L: [82,79], M: [76,83], N: [76,80]},
@@ -114,7 +87,7 @@ export const hrv2022_D = {
                 72,
                 {R: [34,42], S: [41,56]},
                 61, 73,
-                57,
+                50,
                 49,
                 {T: 52, U: 36},
                 100, 'V2', 'M1'
@@ -122,6 +95,7 @@ export const hrv2022_D = {
         },
         {
             name: 'D2',
+            displayName: 'D 2. osuus',
             course: [
                 'V1', 'L1',
                 {L: [82,79], M: [76,83], N: [76,80]},
@@ -136,6 +110,7 @@ export const hrv2022_D = {
         },
         {
             name: 'D3',
+            displayName: 'D 3. osuus',
             course: [
                 'V1', 'L1',
                 {L: [82,79], M: [76,83], N: [76,80]},
@@ -149,57 +124,53 @@ export const hrv2022_D = {
             ]
         },
     ],
-    forkingRulesZZ: [
-        {
-            leg: 'D1',
+    forkingRules: [
+    /*    {
+            leg: '',
             if: 'L',
-            then: ['R']
+            not: ['R'] 
         },
         {
-            leg: 'D1',
+            leg: '',
             if: 'M',
-            then: ['R']
+            not: ['R'] 
         },
         {
-            leg: 'D1',
+            leg: '',
             if: 'N',
-            then: ['S']
+            not: ['S'] 
         },
         {
-            leg: 'D1',
+            leg: '',
             if: 'O',
-            then: ['U']
+            not: ['T'] 
         },
         {
-            leg: 'D1',
+            leg: '',
             if: 'P',
-            then: ['T']
+            not: ['U'] 
         },
         {
-            leg: 'D1',
+            leg: '',
             if: 'Q',
-            then: ['T']
-        },/*
+            not: ['U'] 
+        },*/
         {
-            leg: 'D2',
-            if: 'M',
-            not: ['T']
-        },
-        */
-        {
-            leg: 'D3',
+            leg: '',
             if: 'L',
-            then: ['R']
+            then: ['Q'] 
         },
         {
-            leg: 'D3',
+            leg: '',
             if: 'M',
-            then: ['S']
+            then: ['P'] 
         },
         {
-            leg: 'D3',
+            leg: '',
             if: 'N',
-            then: ['R']
+            then: ['O'] 
         },
+
+
     ]
 }

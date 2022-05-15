@@ -130,6 +130,7 @@ export const getFullCourseDataFromLeg = (leg, forkingRules) => {
         if(checkForkingAllowed(variantControls, forkingRules)) {
             result.push({
                 legName: leg.name,
+                legDisplayName: leg.displayName,
                 courseId: leg.name + toTwoDigits(courseIndex),
                 courseName: leg.name + variantControls.join(''),
                 definition: variant,
