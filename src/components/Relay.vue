@@ -1,8 +1,12 @@
 <script>
+import Randomizer from './Randomizer.vue'
 import * as relayFn from '../utils/relay';
 import * as csvFn from '../utils/csv';
 
 export default {
+    components: {
+        Randomizer
+    },
     props: [
         'courseData'
     ],
@@ -128,4 +132,6 @@ export default {
             </div>
         </div>
     </template>
+
+    <Randomizer :relayData="filteredRelayData" :allCourses="allCourses"/>
 </template>

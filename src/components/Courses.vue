@@ -75,7 +75,7 @@ export default {
   <button type="button" v-on:click="createRelayCourses">Create relay courses</button><br>
 
 
-  <Relay :courseData="readyCourseData"></Relay>
+  <Relay :courseData="readyCourseData"/>
 </template>
 
 <style scoped>
