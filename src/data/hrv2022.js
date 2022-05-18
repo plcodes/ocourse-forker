@@ -54,21 +54,21 @@ export const hrv2022_H = {
     forkingRules: [
         {
             leg: 'H3',
-            if: 'A',
-            then: ['H']
+            if: 'H',
+            not: ['B']
         },
         {
             leg: 'H3',
+            if: 'I',
+            then: ['B']
+        },
+        {
+            leg: 'H2',
             if: 'B',
-            then: ['I']
-        },
-        {
-            leg: 'H3',
-            if: 'C',
-            then: ['H']
+            not: ['H']
         },
 
-    ]
+    ],
 }
 
 export const hrv2022_D = {
@@ -125,52 +125,35 @@ export const hrv2022_D = {
         },
     ],
     forkingRules: [
-    /*    {
+        {
             leg: '',
-            if: 'L',
-            not: ['R'] 
+            if: 'R',
+            then: ['N'] 
         },
         {
             leg: '',
-            if: 'M',
-            not: ['R'] 
+            if: 'S',
+            not: ['N'] 
         },
         {
-            leg: '',
+            leg: 'D2',
             if: 'N',
-            not: ['S'] 
+            then: ['XXX'] 
         },
         {
             leg: '',
-            if: 'O',
-            not: ['T'] 
+            if: 'T',
+            not: ['P'] 
         },
         {
             leg: '',
-            if: 'P',
-            not: ['U'] 
-        },
-        {
-            leg: '',
-            if: 'Q',
-            not: ['U'] 
-        },*/
-        {
-            leg: '',
-            if: 'L',
-            then: ['Q'] 
-        },
-        {
-            leg: '',
-            if: 'M',
+            if: 'U',
             then: ['P'] 
         },
         {
-            leg: '',
-            if: 'N',
-            then: ['O'] 
+            leg: 'D3',
+            if: 'P',
+            then: ['XXX'] 
         },
-
-
-    ]
+    ],
 }
