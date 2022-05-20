@@ -7,7 +7,7 @@ export const hrv2022_H = {
             name: 'H1',
             displayName: 'H 1. osuus',
             course: [
-                'V1', 'L1',
+                'V3', 'L1',
                 {A: [81,76], B: [70,80],C: [75,77]},
                 71,
                 {D: [53,43,32], E: [38,39,55]},
@@ -80,7 +80,7 @@ export const hrv2022_D = {
             name: 'D1',
             displayName: 'D 1. osuus',
             course: [
-                'V1', 'L1',
+                'V3', 'L1',
                 {L: [82,79], M: [76,83], N: [76,80]},
                 74,
                 {O: 32, P: 55, Q: 33},
