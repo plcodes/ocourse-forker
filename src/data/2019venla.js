@@ -5,6 +5,7 @@ export const venla2019 = {
     legs: [
         {
             name: 'V1',
+            displayName: 'V 1. osuus',
             course: [
                 'V1', 'L1',
                 {A1: [50, 60], B1: [97, 41], B2: [42, 58], A2: [138, 102]},
@@ -20,6 +21,7 @@ export const venla2019 = {
         },
         {
             name: 'V2',
+            displayName: 'V 2. osuus',
             course: [
                 'V3', 'L1',
                 {A1: [50, 60], B1: [97, 41], B2: [42, 58], A2: [138, 102]},
@@ -35,6 +37,7 @@ export const venla2019 = {
         },
         {
             name: 'V3',
+            displayName: 'V 3. osuus',
             course: [
                 'V3', 'L1',
                 {A1: [50, 60], B1: [97, 41], B2: [42, 58], A2: [138, 102]},
@@ -54,6 +57,7 @@ export const venla2019 = {
         },
         {
             name: 'V4',
+            displayName: 'V 4. osuus',
             course: [
                 'V3', 'L1',
                 {A1: [50, 60], B1: [97, 41], B2: [42, 58], A2: [138, 102]},

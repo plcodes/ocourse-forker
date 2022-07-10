@@ -1,58 +1,87 @@
 <script>
-import Relay from './Relay.vue'
 import * as courseFn from '../utils/course';
 import * as csvFn from '../utils/csv';
 import * as hrvData from '../data/hrv2022';
 import * as venla from '../data/2019venla';
 
 export default {
-    components: {
-        Relay
-    },
     data() {
         return {
-            relay: undefined,
+            inputJson: undefined,
+            inputError: false,
+            relayJson: undefined,
             courseData: [],
-            courseHeader: csvFn.COURSE_HEADER_ROW,
-            readyCourseData: []
+            courseHeader: csvFn.COURSE_HEADER_ROW
         };
     },
     computed: {
         legsAreDefinedCorrectly: function () {
-            return this.relay ? this.relay.legCount === this.relay.legs.length : undefined;
+            return this.relayJson ? this.relayJson.legCount === this.relayJson.legs.length : undefined;
         },
         forkingsAreDefinedCorrectly: function () {
-            return this.relay ? courseFn.checkForkingsAreDefinedCorrectly(this.relay.legs) : undefined;
+            return this.relayJson ? courseFn.checkForkingsAreDefinedCorrectly(this.relayJson.legs) : undefined;
         },
     },
     methods: {
+        copySampleHrvH: function (evt) {
+            evt.preventDefault();
+            this.inputJson = JSON.stringify(hrvData.hrv2022_H, undefined, 2);
+        },
+        copySampleHrvD: function (evt) {
+            evt.preventDefault();
+            this.inputJson = JSON.stringify(hrvData.hrv2022_D, undefined, 2);
+        },
+        copySampleVenla: function (evt) {
+            evt.preventDefault();
+            this.inputJson = JSON.stringify(venla.venla2019, undefined, 2);
+        },
+        inputDone: function () {
+            this.inputError = false;
+            try {
+                this.relayJson = JSON.parse(this.inputJson);
+                this.createCourses();
+            } catch (e) {
+                this.inputError = true;
+            }
+        },
         createCourses: function () {
-            this.courseData = courseFn.createRelayData(this.relay.legs, this.relay.forkingRules);
+            this.courseData = courseFn.createRelayData(this.relayJson.legs, this.relayJson.forkingRules);
         },
         toCsv: function (relayName, courseName, length, climb, courseId, controls) {
             return csvFn.courseToCsvRow(relayName, courseName, length, climb, courseId, controls);
         },
         createRelayCourses: function() {
-            this.readyCourseData = this.courseData;
+            this.$emit('coursesReady', this.courseData)
         }
         
     },
-    mounted: function () {
-        //this.relay = venla.venla2019;
-        this.relay = hrvData.hrv2022_H;
-        this.createCourses();
-    }
+    mounted: function () {},
+    emits: ['coursesReady']
 }
 </script>
 
 <template>
-  <h1>Course Forker</h1>
-  <p>A tool to automatically create orienteering relay courses from relay variants.</p>
+  <h2>Course data</h2>
   
-  <template v-if="relay">
-    <textarea>{{JSON.stringify(relay)}}</textarea>
+  <h3>Input data</h3>
+  <p>
+      Load existing samples 
+      <a href="#" v-on:click="copySampleHrvH">HRV 2022 H</a>,
+      <a href="#" v-on:click="copySampleHrvD">HRV 2022 D</a>, 
+      <a href="#" v-on:click="copySampleVenla">Venla 2019</a>
+  </p>
+  <textarea v-model="inputJson"></textarea>
+  <button class="btn" v-on:click="inputDone">Use this data</button>
+  <p v-if="inputError">
+    Data is not valid
+  </p>
+
+  <template v-if="relayJson">
+    <h3>Ready data</h3>
+    <textarea style="width: 100%;" readonly>{{JSON.stringify(relayJson, undefined, 2)}}</textarea>
+
     <p v-if="legsAreDefinedCorrectly">Legs ok</p>
-    <p v-else>Leg count is {{relay.legCount}}, but {{relay.legs.length}} legs are defined</p>
+    <p v-else>Leg count is {{relayJson.legCount}}, but {{relayJson.legs.length}} legs are defined</p>
     <p v-if="forkingsAreDefinedCorrectly.status">Forkings ok</p>
     <p v-else>Problem in forkings: {{forkingsAreDefinedCorrectly.msg}}</p>
 
@@ -70,12 +99,10 @@ export default {
     <div v-for="(leg, index) in courseData">
         {{leg.legName}}: {{leg.courses.length}}
     </div>
+    
+    <button class="btn" type="button" v-on:click="createRelayCourses">Create relay courses</button><br>
   </template>
 
-  <button type="button" v-on:click="createRelayCourses">Create relay courses</button><br>
-
-
-  <Relay :courseData="readyCourseData"/>
 </template>
 
 <style scoped>

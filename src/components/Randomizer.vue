@@ -1,4 +1,6 @@
 <script>
+//import * as viestiliiga from '../data/viestiliiga_H';
+
 const shuffleArray = array => {
     return array.map(value => ({ value, sort: Math.random() }))
             .sort((a, b) => a.sort - b.sort)
@@ -12,15 +14,15 @@ export default {
     ],
     data() {
         return {
-            randomRelayData: undefined
+            randomRelayData: undefined,
+            teamcount: 50
         }
     },
     computed: {
         sufficientAmountOfTeams: function() {
             if(!this.randomRelayData) return;
-            const amount = 100,
-                loops = Math.ceil(amount/this.randomRelayData.length);
-            return Array(loops).fill(this.randomRelayData).flat().slice(0,amount);
+            const loops = Math.ceil(this.teamcount/this.randomRelayData.length);
+            return Array(loops).fill(this.randomRelayData).flat().slice(0,this.teamcount);
             
         },
         teamData: function() {
@@ -28,6 +30,8 @@ export default {
             return this.sufficientAmountOfTeams.map(function(teamCourse, index) {
                 return {
                     number: index+1,
+                    // number: 100 + index+1,
+                    //name: viestiliiga.teams[index] || 'Joukkue '+(index+1),
                     name: 'Joukkue '+(index+1),
                     courses: teamCourse
                 }
@@ -83,32 +87,39 @@ export default {
 </script>
 
 <template>
-    <h2>Random</h2>
-    <button type="button" v-on:click="randomizeCourses">Randomize</button><br>
+    <br>
+    Amount of teams: <input type="number" v-model="teamcount">
+    <br>
+    <button type="button" class="btn" v-on:click="randomizeCourses">Randomize</button><br>
     <template v-if="randomRelayData">
-        <div>
-            <code v-for="team in teamCoursesArray">
-                {{team.join(';')}}
+        <h2>Randomized data for {{this.teamcount}} teams</h2>
+        <code>
+            Numero;Joukkue;1.os koodi;2.os koodi;3.os koodi;1.os nimi;2.os nimi;3.os nimi;Hajontajärjestys;Tarkistus
             <br>
-            </code>
-        </div>
-        <br>
+            <template v-for="team in teamCoursesArray">
+                {{team.join(';')}}
+                <br>
+            </template>
+        </code>
 
-        <h3>Personalization</h3>
-        <h4>Amounts</h4>
-        <div>
-            <code v-for="course in allCourses">
+        <h2>Personalization</h2>
+        <h3>Course amounts for {{this.teamcount}} teams</h3>
+        <code>
+            <template v-for="course in allCourses">
                 {{course}}: {{getRunnersAmountForCourse(course)}}
                 <br>
-            </code>
-        </div>
+            </template>
+        </code>
 
+        <h3>Course personalizations (team;leg)</h3>
         <div v-for="[key, value] in runnersForCourses">
             <h4>{{key}}</h4>
-            <code v-for="team in value" style="display:block">
-                {{team.team}};{{team.leg}}
+            <code>
+                <template v-for="team in value">
+                    {{team.team}};{{team.leg}}
+                    <br>
+                </template>
             </code>
-            <br>
         </div>
     </template>
 </template>
