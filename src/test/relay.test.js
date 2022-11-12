@@ -125,20 +125,17 @@ test('Full forkings', () => {
 
 test('Cartesian product from forkings', () => {
     const allForkings = courseFn.cartesian(sampleForkings);
-    //console.log('allForkings', allForkings);
     expect(JSON.stringify(allForkings))
         .toEqual('[["A1","A2","C1","C2"],["A1","A2","D1","D2"],["B1","B2","C1","C2"],["B1","B2","D1","D2"]]')
 })
 
 test('All team combinations', () => {
     const allTeamCombinations = courseFn.cartesian(sampleForkingsForRelay);
-    //console.log('allForkings', allForkings);
     expect(allTeamCombinations.length).toBe(3*3*3);
 })
 
 test('All valid team combinations', () => {
     const validTeamCombinations = relayFn.getValidTeamCombinations(sampleCourseData);
-    //console.log('valid ones', allValid);
     expect(validTeamCombinations.length).toBe(6);
 })
 
@@ -165,12 +162,9 @@ test('All team combinations as objects', () => {
 
 test('Venla 2019', () => {
     const courseData = courseFn.createRelayData(venla.venla2019.legs, venla.venla2019.forkingRules);
-    //console.log('Venla data', courseData);
     const teamCombinations = relayFn.getValidTeamCombinations(courseData);
     expect(teamCombinations.length).toBe(384);
-    //console.log('valid ones', allValid);
     const teamCombinationsFullData = relayFn.mapRelayCoursesToContainFullData(teamCombinations, courseData);
     expect(teamCombinationsFullData.length).toBe(384);
-    //console.log('full Venla', allValidObjects);
 })
 

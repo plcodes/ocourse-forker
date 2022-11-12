@@ -1,8 +1,8 @@
 <script>
 import * as courseFn from '../utils/course';
 import * as csvFn from '../utils/csv';
-import * as hrvData from '../data/hrv2022';
-import * as venla from '../data/2019venla';
+import * as hrvData from '../data/sample/hrv2022';
+import * as venla from '../data/sample/2019venla';
 
 export default {
     data() {
