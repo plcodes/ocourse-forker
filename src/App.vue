@@ -1,22 +1,20 @@
 <script>
 import Courses from './components/Courses.vue';
 import Relay from './components/Relay.vue'
+import Navigation from './components/Navigation.vue'
 
 export default {
   components: {
     Courses,
-    Relay
+    Relay,
+    Navigation
   },
   data() {
     return {
-      activeTab: 'course',
       allCoursesForLegs: []
     };
   },
   methods: {
-    selectTab: function(tabname) {
-      this.activeTab = tabname;
-    },
     setCourses: function(data) {
       this.allCoursesForLegs = data;
     }
@@ -28,17 +26,14 @@ export default {
   <h1>Orienteering Relay Forker</h1>
   <p>A tool to automatically create orienteering relay courses from relay variants.</p>
 
-  <nav>
-    <button v-on:click="selectTab('course')" :class="{active : activeTab === 'course'}">Course</button>
-    <button v-on:click="selectTab('relay')" :class="{active : activeTab === 'relay'}">Relay</button>
-    <!--button v-on:click="selectTab('randomizer')" :class="{active : activeTab === 'randomizer'}">Random</button-->
-  </nav>
-  <div v-show="activeTab === 'course'">
+  <Navigation/>
+
+  <section id="courses">
     <Courses @coursesReady="setCourses"/>
-  </div>
-  <div v-show="activeTab === 'relay'">
+  </section>
+  <section id="relay">
     <Relay :courseData="allCoursesForLegs"/>
-  </div>
+  </section>
   <!--div v-show="activeTab === 'randomizer'">
     <Randomizer :relayData="filteredRelayData" :allCourses="allCourses"/>
   </div-->
@@ -55,6 +50,9 @@ export default {
 * {
   box-sizing: border-box;
 } 
+html {
+  scroll-behavior: smooth;
+}
 body {
   margin: 30px;
   margin-top: 60px;
@@ -67,6 +65,10 @@ body {
   color: var(--color-brand-1);
   background: var(--color-brand-4);
 }
+section {
+  padding-top: 60px;
+}
+
 textarea {
   min-height: 300px;
   width: 100%;
@@ -85,31 +87,6 @@ code {
   line-height: 1.5;
 }
 
-nav {
-  background: var(--color-brand-2);
-  color: white;
-  display: flex;
-  gap: 20px 30px;
-  margin: 0 -30px;
-  padding: 20px 30px;
-  position: sticky;
-  top: 0;
-  button {
-    background: none;
-    border: none;
-    font-size: 2em;
-    color: var(--color-brand-3);
-    cursor: pointer;
-    transition: 0.2s ease;
-    &.active {
-      text-decoration-line: underline;
-      text-underline-offset: 20%;
-    }
-    &:hover {
-      color: white;
-    }
-  }
-}
 .field-with-explanation {
   display: flex;
   flex-wrap: wrap;
