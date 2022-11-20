@@ -1,0 +1,43 @@
+
+{
+    "App": {
+        "title": "Orienteering Relay Forker",
+        "description": "A tool to automatically create orienteering relay courses from relay variants."
+    },
+    "Courses": {
+        "nav": "Courses",
+        "title": "Course Data",
+        "input": "Input data",
+        "load-examples": "Load existing samples",
+        "confirm": "Use this data",
+        "error": "Data is not valid",
+        "used-data": "Ready data",
+        "validation-legs-ok": "Legs ok",
+        "validation-legs-invalid": "Leg count is {legCount}, but {legDefinitions} legs are defined",
+        "validation-forkings-ok": "Forkings ok",
+        "validation-forkings-invalid": "Error in forkings:",
+        "csvs": "Course csvs",
+        "forking-amounts": "Forking amounts per leg",
+        "cta": "Create relay courses"
+    },
+    "Forkings": {
+        "error": "Settings for forking {key} don't match. Previous: {previous}, new: {new}"
+    },
+    "Relay": {
+        "nav": "Relay",
+        "title": "Relay",
+        "no-courses": "Set courses first and click Create relay courses",
+        "skip-selection": "Select combinations to skip",
+        "team-combinations": "All team combinations in order",
+        "allcourses-amounts": "Course amounts for full combination set"
+    },
+    "Randomizer": {
+        "title": "Randomizer",
+        "amount": "Amount of teams:",
+        "cta": "Randomize",
+        "data": "Randomized data for {teams} teams",
+        "personalization": "Personalization",
+        "courses": "Course amounts for {teams} teams",
+        "course-personalizations": "Course personalizations (team;leg)"
+    }
+}

@@ -109,10 +109,10 @@ export default {
 </script>
 
 <template>
-    <h2>Relay</h2>
+    <h2>{{ $t("Relay.title") }}</h2>
     <template v-if="courseData.length">
         <template v-if="relayData">
-            <h3>Select combinations to skip</h3>
+            <h3>{{ $t("Relay.skip-selection") }}</h3>
             <div>
                 <div v-for="(combination, index) in validCombinationsWithId" :key="combination.id">
                     {{index +1}}
@@ -121,7 +121,7 @@ export default {
                 </div>
             </div>
 
-            <h3>All team combinations in order</h3>
+            <h3>{{ $t("Relay.team-combinations") }}</h3>
             <code>
                 <template v-for="team in teamCoursesArray">
                     {{team.join(';')}}
@@ -129,7 +129,7 @@ export default {
                 </template>
             </code>
 
-            <h3>Course amounts for full combination set</h3>
+            <h3>{{ $t("Relay.allcourses-amounts") }}</h3>
             <code>
                 <template v-for="course in allCourses">
                     {{course}}: {{getRunnersAmountForCourse(course)}}
@@ -141,7 +141,7 @@ export default {
         <Randomizer :relayData="filteredRelayData" :allCourses="allCourses"/>
     </template>
     <template v-else>
-        <h3>Set courses first and click Create relay courses</h3>
+        <p>{{ $t("Relay.no-courses") }}</p>
     </template>
 </template>
 

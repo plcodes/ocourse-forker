@@ -133,10 +133,10 @@ test('Array equals', () => {
 test('Forkings are defined correctly', () => {
     const check1 = courseFn.checkForkingsAreDefinedCorrectly([simpleLeg]);
     expect(check1.status).toBe(true);
-    expect(check1.msg).eq('')
+    expect(check1.key).eq('')
     const check2 = courseFn.checkForkingsAreDefinedCorrectly([invalidLeg]);
     expect(check2.status).toBe(false);
-    expect(check2.msg).not.eq('')
+    expect(check2.key).not.eq('')
 })
 
 test('Get all forkings object', () => {

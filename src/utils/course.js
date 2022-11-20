@@ -46,7 +46,9 @@ export const checkForkingsAreDefinedCorrectly = (legs) => {
    
                         return {
                             status: false,
-                            msg: `Settings for forking ${key} don\'t match. Previous: ${existing}, new: ${value}`
+                            key: key,
+                            previous: existing,
+                            new: value
                         }
                     }
                 } else {
@@ -57,7 +59,7 @@ export const checkForkingsAreDefinedCorrectly = (legs) => {
     }
     return {
         status: true,
-        msg: ''
+        key: ''
     }
 };
 

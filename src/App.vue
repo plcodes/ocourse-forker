@@ -1,13 +1,15 @@
 <script>
 import Courses from './components/Courses.vue';
-import Relay from './components/Relay.vue'
-import Navigation from './components/Navigation.vue'
+import Relay from './components/Relay.vue';
+import Navigation from './components/Navigation.vue';
+import LocaleSelect from "./components/LocaleSelect.vue";
 
 export default {
   components: {
     Courses,
     Relay,
-    Navigation
+    Navigation,
+    LocaleSelect
   },
   data() {
     return {
@@ -23,8 +25,9 @@ export default {
 </script>
 
 <template>
-  <h1>Orienteering Relay Forker</h1>
-  <p>A tool to automatically create orienteering relay courses from relay variants.</p>
+  <LocaleSelect />
+  <h1>{{ $t("App.title") }}</h1>
+  <p>{{ $t("App.description") }}</p>
 
   <Navigation/>
 
@@ -55,7 +58,6 @@ html {
 }
 body {
   margin: 30px;
-  margin-top: 60px;
   padding: 0;
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;

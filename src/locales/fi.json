@@ -1,0 +1,44 @@
+
+{
+    "App": {
+        "title": "Suunnistuksen viestiradat",
+        "description": "Työkalu suunnistuksen viestiratojen tekoon hajontakoodien pohjalta."
+    },
+    "Courses": {
+        "nav": "Ratamääritykset",
+        "title": "Ratamääritykset",
+        "input": "Syötedata",
+        "load-examples": "Lataa valmis esimerkki",
+        "confirm": "Käytä tätä dataa",
+        "error": "Virhe luettaessa dataa",
+        "used-data": "Valmis data",
+        "validation-legs-ok": "Osuudet ok",
+        "validation-legs-invalid": "Osuusmääräksi on asetettu {legCount}, mutta määrityksissä on {legDefinitions} osuutta",
+        "validation-forkings-ok": "Hajonnat ok",
+        "validation-forkings-invalid": "Virhe hajonnoissa:",
+        "csvs": "Radat csv-muodossa",
+        "forking-amounts": "Hajontaratojen määrät osuuksittain",
+        "cta": "Luo viestihajonnat"
+    },
+    "Forkings": {
+        "error": "Hajonnan {key} määritykset eivät täsmää. Aiempi: {previous}, uusi: {new}"
+    },
+    "Relay": {
+        "nav": "Viestihajonnat",
+        "title": "Viestihajonnat",
+        "no-courses": "Luo ratamääritykset ensin ja klikkaa Luo viestihajonnat",
+        "skip-selection": "Valitse läpiviennit, joita ei käytetä",
+        "team-combinations": "Kaikki joukkueläpiviennit järjestyksessä",
+        "allcourses-amounts": "Ratojen käyttö läpivienneillä"
+
+    },
+    "Randomizer": {
+        "title": "Arvonta",
+        "amount": "Joukkueiden lukumäärä:",
+        "cta": "Arvo",
+        "data": "Arvotut läpiviennit {teams} joukkueelle",
+        "personalization": "Personointi",
+        "courses": "Ratojen määrä {teams} joukkueella",
+        "course-personalizations": "Ratojen personoinnit (joukkue;osuus)"
+    }
+}

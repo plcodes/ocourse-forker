@@ -61,31 +61,35 @@ export default {
 </script>
 
 <template>
-  <h2>Course data</h2>
+  <h2>{{ $t("Courses.title") }}</h2>
   
-  <h3>Input data</h3>
+  <h3>{{ $t("Courses.input") }}</h3>
   <p>
-      Load existing samples 
+    {{ $t("Courses.load-examples") }} 
       <a href="#" v-on:click="copySampleHrvH">HRV 2022 H</a>,
       <a href="#" v-on:click="copySampleHrvD">HRV 2022 D</a>, 
       <a href="#" v-on:click="copySampleVenla">Venla 2019</a>
   </p>
   <textarea v-model="inputJson"></textarea>
-  <button class="btn" v-on:click="inputDone">Use this data</button>
+  <button class="btn" v-on:click="inputDone">{{ $t("Courses.confirm") }}</button>
   <p v-if="inputError">
-    Data is not valid
+    {{ $t("Courses.error") }}
   </p>
 
   <template v-if="relayJson">
-    <h3>Ready data</h3>
+    <h3>{{ $t("Courses.used-data") }}</h3>
     <textarea style="width: 100%;" readonly>{{JSON.stringify(relayJson, undefined, 2)}}</textarea>
 
-    <p v-if="legsAreDefinedCorrectly">Legs ok</p>
-    <p v-else>Leg count is {{relayJson.legCount}}, but {{relayJson.legs.length}} legs are defined</p>
-    <p v-if="forkingsAreDefinedCorrectly.status">Forkings ok</p>
-    <p v-else>Problem in forkings: {{forkingsAreDefinedCorrectly.msg}}</p>
+    <p v-if="legsAreDefinedCorrectly">{{ $t("Courses.validation-legs-ok") }}</p>
+    <p v-else>{{ $t("Courses.validation-legs-invalid", { 'legCount': relayJson.legCount, 'legDefinitions': relayJson.legs.length}) }}</p>
+    <p v-if="forkingsAreDefinedCorrectly.status">{{ $t("Courses.validation-forkings-ok") }}</p>
+    <p v-else>{{ $t("Courses.validation-forkings-invalid") }} 
+        {{ $t("Forkings.error", {
+            'key': forkingsAreDefinedCorrectly.key, 
+            'previous': forkingsAreDefinedCorrectly.previous,
+            'new': forkingsAreDefinedCorrectly.new}) }}</p>
 
-    <h2>Course csvs:</h2>
+    <h2>{{ $t("Courses.csvs") }}</h2>
     <code v-if="courseData">
         {{courseHeader}}<br>
         <template v-for="(leg, index) in courseData">
@@ -95,12 +99,12 @@ export default {
         </template>
     </code>
 
-    <h2>Forking amounts</h2>
+    <h2>{{ $t("Courses.forking-amounts") }}</h2>
     <div v-for="(leg, index) in courseData">
         {{leg.legName}}: {{leg.courses.length}}
     </div>
     
-    <button class="btn" type="button" v-on:click="createRelayCourses">Create relay courses</button><br>
+    <button class="btn" type="button" v-on:click="createRelayCourses">{{ $t("Courses.cta") }}</button><br>
   </template>
 
 </template>

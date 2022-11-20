@@ -87,12 +87,11 @@ export default {
 </script>
 
 <template>
-    <br>
-    Amount of teams: <input type="number" v-model="teamcount">
-    <br>
-    <button type="button" class="btn" v-on:click="randomizeCourses">Randomize</button><br>
+    <h2>{{ $t("Randomizer.title") }}</h2>
+    <p>{{ $t("Randomizer.amount") }} <input type="number" v-model="teamcount"></p>
+    <button type="button" class="btn" v-on:click="randomizeCourses">{{ $t("Randomizer.cta") }}</button><br>
     <template v-if="randomRelayData">
-        <h2>Randomized data for {{this.teamcount}} teams</h2>
+        <h2>{{ $t("Randomizer.data", {'teams': this.teamcount}) }}</h2>
         <code>
             Numero;Joukkue;1.os koodi;2.os koodi;3.os koodi;1.os nimi;2.os nimi;3.os nimi;Hajontajärjestys;Tarkistus
             <br>
@@ -102,8 +101,8 @@ export default {
             </template>
         </code>
 
-        <h2>Personalization</h2>
-        <h3>Course amounts for {{this.teamcount}} teams</h3>
+        <h2>{{ $t("Randomizer.personalization") }}</h2>
+        <h3>{{ $t("Randomizer.courses", {'teams': this.teamcount}) }}</h3>
         <code>
             <template v-for="course in allCourses">
                 {{course}}: {{getRunnersAmountForCourse(course)}}
@@ -111,7 +110,7 @@ export default {
             </template>
         </code>
 
-        <h3>Course personalizations (team;leg)</h3>
+        <h3>{{ $t("Randomizer.course-personalizations") }}</h3>
         <div v-for="[key, value] in runnersForCourses">
             <h4>{{key}}</h4>
             <code>
