@@ -1,7 +1,7 @@
 import { assert, expect, test } from 'vitest'
 import * as courseFn from '../utils/course';
 import * as relayFn from '../utils/relay';
-import * as venla from '../data/2019venla';
+import * as venla from '../data/sample/2019venla';
 
 const sampleForkings = [
     [['A1','A2'], ['B1','B2']],
