@@ -1,6 +1,7 @@
 <script>
 import * as courseFn from '../utils/course';
 import * as csvFn from '../utils/csv';
+import * as sampleData from '../data/sample/basic-models';
 import * as hrvData from '../data/sample/hrv2022';
 import * as venla from '../data/sample/2019venla';
 
@@ -11,7 +12,10 @@ export default {
             inputError: false,
             relayJson: undefined,
             courseData: [],
-            courseHeader: csvFn.COURSE_HEADER_ROW
+            courseHeader: csvFn.COURSE_HEADER_ROW,
+            sampleData: sampleData,
+            hrvData: hrvData,
+            venla: venla
         };
     },
     computed: {
@@ -23,17 +27,9 @@ export default {
         },
     },
     methods: {
-        copySampleHrvH: function (evt) {
+        copySampleData: function(data, evt) {
             evt.preventDefault();
-            this.inputJson = JSON.stringify(hrvData.hrv2022_H, undefined, 2);
-        },
-        copySampleHrvD: function (evt) {
-            evt.preventDefault();
-            this.inputJson = JSON.stringify(hrvData.hrv2022_D, undefined, 2);
-        },
-        copySampleVenla: function (evt) {
-            evt.preventDefault();
-            this.inputJson = JSON.stringify(venla.venla2019, undefined, 2);
+            this.inputJson = JSON.stringify(data, undefined, 2);
         },
         inputDone: function () {
             this.inputError = false;
@@ -66,9 +62,14 @@ export default {
   <h3>{{ $t("Courses.input") }}</h3>
   <p>
     {{ $t("Courses.load-examples") }} 
-      <a href="#" v-on:click="copySampleHrvH">HRV 2022 H</a>,
-      <a href="#" v-on:click="copySampleHrvD">HRV 2022 D</a>, 
-      <a href="#" v-on:click="copySampleVenla">Venla 2019</a>
+      <a href="#" v-on:click="copySampleData(sampleData.Motala, $event)">Motala</a>,
+      <a href="#" v-on:click="copySampleData(sampleData.MotalaWithLegs, $event)">Motala 2</a>,
+      <a href="#" v-on:click="copySampleData(sampleData.Vannes, $event)">Vännes</a>,
+      <a href="#" v-on:click="copySampleData(sampleData.VannesWithLegs, $event)">Vännes 2</a>,
+      <a href="#" v-on:click="copySampleData(sampleData.Farsta, $event)">Farsta</a>,
+      <a href="#" v-on:click="copySampleData(hrvData.hrv2022_H, $event)">HRV 2022 H</a>,
+      <a href="#" v-on:click="copySampleData(hrvData.hrv2022_D, $event)">HRV 2022 D</a>, 
+      <a href="#" v-on:click="copySampleData(venla.venla2019, $event)">Venla 2019</a>
   </p>
   <textarea v-model="inputJson"></textarea>
   <button class="btn" v-on:click="inputDone">{{ $t("Courses.confirm") }}</button>
