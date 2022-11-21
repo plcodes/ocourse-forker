@@ -1,9 +1,10 @@
 
 {
-    "App": {
-        "title": "Orienteering Relay Forker",
-        "description": "A tool to automatically create orienteering relay courses from relay variants."
-    },
+    "title": "Orienteering Relay Forker",
+    "description": "A tool to automatically create orienteering relay courses from relay variants.",
+    "copy-to-clipboard": "Copy to clipboard",
+    "copy-done": "Copied",
+
     "Courses": {
         "nav": "Courses",
         "title": "Course Data",

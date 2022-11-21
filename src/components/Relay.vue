@@ -1,11 +1,13 @@
 <script>
 import Randomizer from './Randomizer.vue'
+import CodeBlock from './CodeBlock.vue'
 import * as relayFn from '../utils/relay';
 import * as csvFn from '../utils/csv';
 
 export default {
     components: {
-        Randomizer
+        Randomizer,
+        CodeBlock
     },
     props: [
         'courseData'
@@ -122,20 +124,22 @@ export default {
             </div>
 
             <h3>{{ $t("Relay.team-combinations") }}</h3>
-            <code>
+            <CodeBlock>
                 <template v-for="team in teamCoursesArray">
                     {{team.join(';')}}
                     <br>
                 </template>
-            </code>
+            </CodeBlock>
+
 
             <h3>{{ $t("Relay.allcourses-amounts") }}</h3>
-            <code>
+            <CodeBlock>
                 <template v-for="course in allCourses">
                     {{course}}: {{getRunnersAmountForCourse(course)}}
                     <br>
                 </template>
-            </code>
+            </CodeBlock>
+
         </template>
 
         <Randomizer :relayData="filteredRelayData" :allCourses="allCourses"/>

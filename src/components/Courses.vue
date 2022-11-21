@@ -1,4 +1,5 @@
 <script>
+import CodeBlock from './CodeBlock.vue'
 import * as courseFn from '../utils/course';
 import * as csvFn from '../utils/csv';
 import * as sampleData from '../data/sample/basic-models';
@@ -6,6 +7,9 @@ import * as hrvData from '../data/sample/hrv2022';
 import * as venla from '../data/sample/2019venla';
 
 export default {
+    components: {
+        CodeBlock
+    },
     data() {
         return {
             inputJson: undefined,
@@ -91,14 +95,14 @@ export default {
             'new': forkingsAreDefinedCorrectly.new}) }}</p>
 
     <h2>{{ $t("Courses.csvs") }}</h2>
-    <code v-if="courseData">
+    <CodeBlock v-if="courseData">
         {{courseHeader}}<br>
         <template v-for="(leg, index) in courseData">
             <template v-for="course in leg.courses" key="course.courseName">
                 {{toCsv(course.legDisplayName, course.courseName, '', '', course.courseId, course.controls)}}<br>
             </template>
         </template>
-    </code>
+    </CodeBlock>
 
     <h2>{{ $t("Courses.forking-amounts") }}</h2>
     <div v-for="(leg, index) in courseData">

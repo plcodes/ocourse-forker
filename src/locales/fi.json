@@ -1,9 +1,8 @@
 
 {
-    "App": {
-        "title": "Suunnistuksen viestiradat",
-        "description": "Työkalu suunnistuksen viestiratojen tekoon hajontakoodien pohjalta."
-    },
+    "title": "Suunnistuksen viestiradat",
+    "description": "Työkalu suunnistuksen viestiratojen tekoon hajontakoodien pohjalta.",
+    "copy-to-clipboard": "Kopioi teksti",
     "Courses": {
         "nav": "Ratamääritykset",
         "title": "Ratamääritykset",
@@ -40,5 +39,6 @@
         "personalization": "Personointi",
         "courses": "Ratojen määrä {teams} joukkueella",
         "course-personalizations": "Ratojen personoinnit (joukkue;osuus)"
-    }
+    },
+    
 }

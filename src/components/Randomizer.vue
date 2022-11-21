@@ -1,5 +1,5 @@
 <script>
-//import * as viestiliiga from '../data/viestiliiga_H';
+import CodeBlock from './CodeBlock.vue'
 
 const shuffleArray = array => {
     return array.map(value => ({ value, sort: Math.random() }))
@@ -8,6 +8,9 @@ const shuffleArray = array => {
 }
 
 export default {
+    components: {
+        CodeBlock
+    },
     props: [
         'relayData',
         'allCourses'
@@ -92,33 +95,33 @@ export default {
     <button type="button" class="btn" v-on:click="randomizeCourses">{{ $t("Randomizer.cta") }}</button><br>
     <template v-if="randomRelayData">
         <h2>{{ $t("Randomizer.data", {'teams': this.teamcount}) }}</h2>
-        <code>
+        <CodeBlock>
             Numero;Joukkue;1.os koodi;2.os koodi;3.os koodi;1.os nimi;2.os nimi;3.os nimi;Hajontajärjestys;Tarkistus
             <br>
             <template v-for="team in teamCoursesArray">
                 {{team.join(';')}}
                 <br>
             </template>
-        </code>
+        </CodeBlock>
 
         <h2>{{ $t("Randomizer.personalization") }}</h2>
         <h3>{{ $t("Randomizer.courses", {'teams': this.teamcount}) }}</h3>
-        <code>
+        <CodeBlock>
             <template v-for="course in allCourses">
                 {{course}}: {{getRunnersAmountForCourse(course)}}
                 <br>
             </template>
-        </code>
+        </CodeBlock>
 
         <h3>{{ $t("Randomizer.course-personalizations") }}</h3>
         <div v-for="[key, value] in runnersForCourses">
             <h4>{{key}}</h4>
-            <code>
+            <CodeBlock>
                 <template v-for="team in value">
                     {{team.team}};{{team.leg}}
                     <br>
                 </template>
-            </code>
+            </CodeBlock>
         </div>
     </template>
 </template>
