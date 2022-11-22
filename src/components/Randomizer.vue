@@ -1,5 +1,6 @@
 <script>
 import CodeBlock from './CodeBlock.vue'
+import PrintArea from './PrintArea.vue'
 
 const shuffleArray = array => {
     return array.map(value => ({ value, sort: Math.random() }))
@@ -9,7 +10,8 @@ const shuffleArray = array => {
 
 export default {
     components: {
-        CodeBlock
+        CodeBlock,
+        PrintArea
     },
     props: [
         'relayData',
@@ -122,6 +124,14 @@ export default {
                     <br>
                 </template>
             </CodeBlock>
+            <PrintArea :name="key">
+                <template v-for="team in value">
+                    <div class="printpage">
+                        <h1>{{team.team}}</h1>
+                        <h2>{{team.leg}}. <span class="leg">{{ $t("Print.leg") }}</span></h2>
+                    </div>
+                </template>
+            </PrintArea>
         </div>
     </template>
 </template>

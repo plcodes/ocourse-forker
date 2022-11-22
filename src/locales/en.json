@@ -40,5 +40,9 @@
         "personalization": "Personalization",
         "courses": "Course amounts for {teams} teams",
         "course-personalizations": "Course personalizations (team;leg)"
+    },
+    "Print": {
+        "cta": "Print",
+        "leg": "leg"
     }
 }
