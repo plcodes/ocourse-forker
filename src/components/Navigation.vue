@@ -41,8 +41,8 @@
 <template>
     <nav class="section-nav">
         <ol>
-            <li><a href="#courses">{{ $t("Courses.nav") }}</a></li>
-            <li><a href="#relay">{{ $t("Relay.nav") }}</a></li>
+            <li><a href="#courses">{{ $t('Courses.nav') }}</a></li>
+            <li><a href="#relay">{{ $t('Relay.nav') }}</a></li>
         </ol>
     </nav>
 </template>

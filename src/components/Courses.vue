@@ -61,11 +61,11 @@ export default {
 </script>
 
 <template>
-  <h2>{{ $t("Courses.title") }}</h2>
+  <h2>{{ $t('Courses.title') }}</h2>
   
-  <h3>{{ $t("Courses.input") }}</h3>
+  <h3>{{ $t('Courses.input') }}</h3>
   <p>
-    {{ $t("Courses.load-examples") }} 
+    {{ $t('Courses.load-examples') }} 
       <a href="#" v-on:click="copySampleData(sampleData.Motala, $event)">Motala</a>,
       <a href="#" v-on:click="copySampleData(sampleData.MotalaWithLegs, $event)">Motala 2</a>,
       <a href="#" v-on:click="copySampleData(sampleData.Vannes, $event)">Vännes</a>,
@@ -76,26 +76,26 @@ export default {
       <a href="#" v-on:click="copySampleData(venla.venla2019, $event)">Venla 2019</a>
   </p>
   <textarea v-model="inputJson"></textarea>
-  <button class="btn" v-on:click="inputDone">{{ $t("Courses.confirm") }}</button>
+  <button class="btn" v-on:click="inputDone">{{ $t('Courses.confirm') }}</button>
   <p v-if="inputError">
-    {{ $t("Courses.error") }}
+    {{ $t('Courses.error') }}
   </p>
 
   <template v-if="relayJson">
-    <h3>{{ $t("Courses.used-data") }}</h3>
-    <textarea style="width: 100%;" readonly>{{JSON.stringify(relayJson, undefined, 2)}}</textarea>
+    <h3>{{ $t('Courses.used-data') }}</h3>
+    <CodeBlock :helptext="$t('Courses.explanation-used-data')"><pre>{{JSON.stringify(relayJson, undefined, 2)}}</pre></CodeBlock>
 
-    <p v-if="legsAreDefinedCorrectly">{{ $t("Courses.validation-legs-ok") }}</p>
-    <p v-else>{{ $t("Courses.validation-legs-invalid", { 'legCount': relayJson.legCount, 'legDefinitions': relayJson.legs.length}) }}</p>
-    <p v-if="forkingsAreDefinedCorrectly.status">{{ $t("Courses.validation-forkings-ok") }}</p>
-    <p v-else>{{ $t("Courses.validation-forkings-invalid") }} 
-        {{ $t("Forkings.error", {
+    <p v-if="legsAreDefinedCorrectly">{{ $t('Courses.validation-legs-ok') }}</p>
+    <p v-else>{{ $t('Courses.validation-legs-invalid', { 'legCount': relayJson.legCount, 'legDefinitions': relayJson.legs.length}) }}</p>
+    <p v-if="forkingsAreDefinedCorrectly.status">{{ $t('Courses.validation-forkings-ok') }}</p>
+    <p v-else>{{ $t('Courses.validation-forkings-invalid') }} 
+        {{ $t('Forkings.error', {
             'key': forkingsAreDefinedCorrectly.key, 
             'previous': forkingsAreDefinedCorrectly.previous,
             'new': forkingsAreDefinedCorrectly.new}) }}</p>
 
-    <h2>{{ $t("Courses.csvs") }}</h2>
-    <CodeBlock v-if="courseData">
+    <h2>{{ $t('Courses.csvs') }}</h2>
+    <CodeBlock v-if="courseData" :helptext="$t('Courses.explanation-csvs')">
         {{courseHeader}}<br>
         <template v-for="(leg, index) in courseData">
             <template v-for="course in leg.courses" key="course.courseName">
@@ -104,12 +104,12 @@ export default {
         </template>
     </CodeBlock>
 
-    <h2>{{ $t("Courses.forking-amounts") }}</h2>
+    <h2>{{ $t('Courses.forking-amounts') }}</h2>
     <div v-for="(leg, index) in courseData">
         {{leg.legName}}: {{leg.courses.length}}
     </div>
     
-    <button class="btn" type="button" v-on:click="createRelayCourses">{{ $t("Courses.cta") }}</button><br>
+    <button class="btn" type="button" v-on:click="createRelayCourses">{{ $t('Courses.cta') }}</button><br>
   </template>
 
 </template>

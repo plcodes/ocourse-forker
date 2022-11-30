@@ -1,7 +1,7 @@
 
 {
-    "title": "Suunnistuksen viestiradat",
-    "description": "Työkalu suunnistuksen viestiratojen tekoon hajontakoodien pohjalta.",
+    "title": "Suunnistuksen viestiratatyökalu",
+    "description": "Työkalu suunnistuksen viestiratojen tekoon rasti- ja hajontakoodien pohjalta. Sivu toimii sellaisenaan, ei tallenna dataa mihinkään, eikä sisällä esim. seurantaskriptejä, jotka voisivat lähettää dataa eteenpäin. Lähdekoodi: <a href='https://github.com/plcodes/ocourse-forker' target='_blank'>https://github.com/plcodes/ocourse-forker</a>",
     "copy-to-clipboard": "Kopioi teksti",
     "copy-done": "Kopioitu",
 
@@ -13,11 +13,13 @@
         "confirm": "Käytä tätä dataa",
         "error": "Virhe luettaessa dataa",
         "used-data": "Valmis data",
+        "explanation-used-data": "Tässä on käytettävä ratadata. Voit ottaa tämän talteen ja ladata tarvittaessa uudelleen syötedataksi.",
         "validation-legs-ok": "Osuudet ok",
         "validation-legs-invalid": "Osuusmääräksi on asetettu {legCount}, mutta määrityksissä on {legDefinitions} osuutta",
         "validation-forkings-ok": "Hajonnat ok",
         "validation-forkings-invalid": "Virhe hajonnoissa:",
         "csvs": "Radat csv-muodossa",
+        "explanation-csvs": "Tallenna tämä .csv -tiedostoksi ja vie Ocadiin. Ocad tekee yksittäiset radat automaattisesti datan perusteella. Kts. <a href='https://www.ocad.com/wiki/ocad/en/index.php?title=Course_Setting_Import' target='_blank'>https://www.ocad.com/wiki/ocad/en/index.php?title=Course_Setting_Import</a>",
         "forking-amounts": "Hajontaratojen määrät osuuksittain",
         "cta": "Luo viestihajonnat"
     },
@@ -38,6 +40,7 @@
         "amount": "Joukkueiden lukumäärä:",
         "cta": "Arvo",
         "data": "Arvotut läpiviennit {teams} joukkueelle",
+        "explanation-data": "Tämä on viestin ns. Master data. Vie csv exceliin ja lisää oikeat joukkue- ja seuranimet. Sen jälkeen data kelpaa tulospalvelulle ja varakarttapisteelle.",
         "personalization": "Personointi",
         "courses": "Ratojen määrä {teams} joukkueella",
         "course-personalizations": "Ratojen personoinnit (joukkue;osuus)"

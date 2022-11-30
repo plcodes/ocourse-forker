@@ -26,8 +26,8 @@ export default {
 
 <template>
   <LocaleSelect />
-  <h1>{{ $t("title") }}</h1>
-  <p>{{ $t("description") }}</p>
+  <h1>{{ $t('title') }}</h1>
+  <p v-html="$t('description')"></p>
 
   <Navigation/>
 

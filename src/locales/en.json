@@ -1,7 +1,7 @@
 
 {
     "title": "Orienteering Relay Forker",
-    "description": "A tool to automatically create orienteering relay courses from relay variants.",
+    "description": "This tool helps you to automatically create orienteering relay courses from control codes and relay variants. The page works as is, it doesn't send or store the data anywhere and it doesn't contain any 3rd party tracking scripts. Source code: <a href='https://github.com/plcodes/ocourse-forker' target='_blank'>https://github.com/plcodes/ocourse-forker</a>",
     "copy-to-clipboard": "Copy to clipboard",
     "copy-done": "Copied",
 
@@ -13,11 +13,13 @@
         "confirm": "Use this data",
         "error": "Data is not valid",
         "used-data": "Ready data",
+        "explanation-used-data": "Here's the used data. You can copy and save this and use it later as the input data.",
         "validation-legs-ok": "Legs ok",
         "validation-legs-invalid": "Leg count is {legCount}, but {legDefinitions} legs are defined",
         "validation-forkings-ok": "Forkings ok",
         "validation-forkings-invalid": "Error in forkings:",
         "csvs": "Course csvs",
+        "explanation-csvs": "Save this as .csv file and import to Ocad. Ocad creates individual courses automatically based on the csv. See: <a href='https://www.ocad.com/wiki/ocad/en/index.php?title=Course_Setting_Import' target='_blank'>https://www.ocad.com/wiki/ocad/en/index.php?title=Course_Setting_Import</a>",
         "forking-amounts": "Forking amounts per leg",
         "cta": "Create relay courses"
     },
@@ -37,6 +39,7 @@
         "amount": "Amount of teams:",
         "cta": "Randomize",
         "data": "Randomized data for {teams} teams",
+        "explanation-data": "This is the relay's Master data. Just add actual team- and clubnames. Then it's valid for result service and reserve map officials.",
         "personalization": "Personalization",
         "courses": "Course amounts for {teams} teams",
         "course-personalizations": "Course personalizations (team;leg)"
