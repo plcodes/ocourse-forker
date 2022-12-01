@@ -18,7 +18,7 @@ export default {
     <div class="print-area" :id="this.name">
         <slot></slot>
     </div>
-    <button class="btn btn--sub" @click="print">{{ $t('Print.cta') }}</button>
+    <button class="btn btn--sub" @click="print" type="button">{{ $t('Print.cta') }}</button>
 </template>
 
 <style scoped>

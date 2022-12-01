@@ -76,7 +76,7 @@ export default {
       <a href="#" v-on:click="copySampleData(venla.venla2019, $event)">Venla 2019</a>
   </p>
   <textarea v-model="inputJson"></textarea>
-  <button class="btn" v-on:click="inputDone">{{ $t('Courses.confirm') }}</button>
+  <button class="btn" v-on:click="inputDone" type="button">{{ $t('Courses.confirm') }}</button>
   <p v-if="inputError">
     {{ $t('Courses.error') }}
   </p>

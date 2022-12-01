@@ -1,12 +1,8 @@
 <script>
 import CodeBlock from './CodeBlock.vue'
 import PrintArea from './PrintArea.vue'
+import * as relayFn from '../utils/relay';
 
-const shuffleArray = array => {
-    return array.map(value => ({ value, sort: Math.random() }))
-            .sort((a, b) => a.sort - b.sort)
-            .map(({ value }) => value)
-}
 
 export default {
     components: {
@@ -53,7 +49,7 @@ export default {
     },
     methods: {
         randomizeCourses: function() {
-            this.randomRelayData = shuffleArray(this.relayData);
+            this.randomRelayData = relayFn.shuffleArray(this.relayData);
         },
         createCoursesArray: function(teamData) {
             let teams = [];

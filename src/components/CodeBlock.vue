@@ -34,7 +34,7 @@ export default {
         </div>
     </div>
     <div class="info-msg" :class="msgVisible ? 'info-msg--visible' : ''">{{ $t('copy-done') }}</div>
-    <button class="btn btn--sub" @click="copy">{{ $t('copy-to-clipboard') }}</button>
+    <button class="btn btn--sub" @click="copy" type="button">{{ $t('copy-to-clipboard') }}</button>
 </template>
 
 <style lang="scss" scoped>

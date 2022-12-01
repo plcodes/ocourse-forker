@@ -31,6 +31,8 @@
         "title": "Relay",
         "no-courses": "Create courses first and click Create relay courses",
         "skip-selection": "Select combinations to skip",
+        "skip-random-amount": "Select amount of combinations to be picked randomly",
+        "skip-random-cta": "Pick randomly",
         "team-combinations": "All team combinations in order",
         "allcourses-amounts": "Course amounts for full combination set"
     },

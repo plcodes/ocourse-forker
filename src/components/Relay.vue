@@ -14,7 +14,8 @@ export default {
     ],
     data() {
         return {
-            droppedOutCourses: []
+            droppedOutCourses: [],
+            randomCombinationsAmount: undefined
         }
     },
     computed: {
@@ -105,6 +106,19 @@ export default {
             if(!this.runnersForCourses) return;
             const value = this.runnersForCourses.get(courseName);
             return value ? value.length : 0;
+        },
+        pickRandomCombinations: function() {
+            this.droppedOutCourses = [];
+            if(this.randomCombinationsAmount && this.randomCombinationsAmount < this.relayData.length) {
+                const combinationsToDrop = this.relayData.length - this.randomCombinationsAmount;
+                let copiedArray = this.relayData.slice(0);
+                for(let i=0; i<combinationsToDrop; i++) {
+                    copiedArray = relayFn.shuffleArray(copiedArray);
+                    const removed = copiedArray.shift();
+                    const removedKey = removed.map(course => course.forkingId).join('');
+                    this.droppedOutCourses.push(removedKey);
+                }
+            }
         }
     }
 }
@@ -122,6 +136,10 @@ export default {
                     <label :for="combination.id"><code>{{combination.courses}}</code></label>
                 </div>
             </div>
+            {{ $t('Relay.skip-random-amount') }}
+            <input type="number" v-model="randomCombinationsAmount">&nbsp;
+            <button class="btn" v-on:click="pickRandomCombinations" type="button">{{ $t('Relay.skip-random-cta') }}</button>
+
 
             <h3>{{ $t('Relay.team-combinations') }}</h3>
             <CodeBlock>

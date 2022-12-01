@@ -31,6 +31,8 @@
         "title": "Viestihajonnat",
         "no-courses": "Luo ratamääritykset ensin ja klikkaa Luo viestihajonnat",
         "skip-selection": "Valitse läpiviennit, joita ei käytetä",
+        "skip-random-amount": "Rajaa läpivientien määrää satunnaisesti",
+        "skip-random-cta": "Rajaa määrää",
         "team-combinations": "Kaikki joukkueläpiviennit järjestyksessä",
         "allcourses-amounts": "Ratojen käyttö läpivienneillä"
 
