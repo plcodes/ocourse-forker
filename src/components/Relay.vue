@@ -142,11 +142,13 @@ export default {
 
         </template>
 
-        <Randomizer :relayData="filteredRelayData" :allCourses="allCourses"/>
     </template>
     <template v-else>
         <p>{{ $t('Relay.no-courses') }}</p>
     </template>
+    <section id="randomize">
+        <Randomizer :relayData="filteredRelayData" :allCourses="allCourses"/>
+    </section>
 </template>
 
 <style scoped>

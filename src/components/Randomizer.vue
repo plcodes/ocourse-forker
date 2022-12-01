@@ -93,45 +93,50 @@ export default {
 
 <template>
     <h2>{{ $t('Randomizer.title') }}</h2>
-    <p>{{ $t('Randomizer.amount') }} <input type="number" v-model="teamcount"></p>
-    <button type="button" class="btn" v-on:click="randomizeCourses">{{ $t('Randomizer.cta') }}</button><br>
-    <template v-if="randomRelayData">
-        <h2>{{ $t('Randomizer.data', {'teams': this.teamcount}) }}</h2>
-        <CodeBlock :helptext="$t('Randomizer.explanation-data')">
-            Numero;Joukkue;1.os koodi;2.os koodi;3.os koodi;1.os nimi;2.os nimi;3.os nimi;Hajontajärjestys;Tarkistus
-            <br>
-            <template v-for="team in teamCoursesArray">
-                {{team.join(';')}}
+    <template v-if="relayData.length">
+        <p>{{ $t('Randomizer.amount') }} <input type="number" v-model="teamcount"></p>
+        <button type="button" class="btn" v-on:click="randomizeCourses">{{ $t('Randomizer.cta') }}</button><br>
+        <template v-if="randomRelayData">
+            <h2>{{ $t('Randomizer.data', {'teams': this.teamcount}) }}</h2>
+            <CodeBlock :helptext="$t('Randomizer.explanation-data')">
+                Numero;Joukkue;1.os koodi;2.os koodi;3.os koodi;1.os nimi;2.os nimi;3.os nimi;Hajontajärjestys;Tarkistus
                 <br>
-            </template>
-        </CodeBlock>
-
-        <h2>{{ $t('Randomizer.personalization') }}</h2>
-        <h3>{{ $t('Randomizer.courses', {'teams': this.teamcount}) }}</h3>
-        <CodeBlock>
-            <template v-for="course in allCourses">
-                {{course}}: {{getRunnersAmountForCourse(course)}}
-                <br>
-            </template>
-        </CodeBlock>
-
-        <h3>{{ $t('Randomizer.course-personalizations') }}</h3>
-        <div v-for="[key, value] in runnersForCourses">
-            <h4>{{key}}</h4>
-            <CodeBlock>
-                <template v-for="team in value">
-                    {{team.team}};{{team.leg}}
+                <template v-for="team in teamCoursesArray">
+                    {{team.join(';')}}
                     <br>
                 </template>
             </CodeBlock>
-            <PrintArea :name="key">
-                <template v-for="team in value">
-                    <div class="printpage">
-                        <h1>{{team.team}}</h1>
-                        <h2>{{team.leg}}. <span class="leg">{{ $t('Print.leg') }}</span></h2>
-                    </div>
+
+            <h2>{{ $t('Randomizer.personalization') }}</h2>
+            <h3>{{ $t('Randomizer.courses', {'teams': this.teamcount}) }}</h3>
+            <CodeBlock>
+                <template v-for="course in allCourses">
+                    {{course}}: {{getRunnersAmountForCourse(course)}}
+                    <br>
                 </template>
-            </PrintArea>
-        </div>
+            </CodeBlock>
+
+            <h3>{{ $t('Randomizer.course-personalizations') }}</h3>
+            <div v-for="[key, value] in runnersForCourses">
+                <h4>{{key}}</h4>
+                <CodeBlock>
+                    <template v-for="team in value">
+                        {{team.team}};{{team.leg}}
+                        <br>
+                    </template>
+                </CodeBlock>
+                <PrintArea :name="key">
+                    <template v-for="team in value">
+                        <div class="printpage">
+                            <h1>{{team.team}}</h1>
+                            <h2>{{team.leg}}. <span class="leg">{{ $t('Print.leg') }}</span></h2>
+                        </div>
+                    </template>
+                </PrintArea>
+            </div>
+        </template>
+    </template>
+    <template v-else>
+        <p>{{ $t('Randomizer.no-data') }}</p>
     </template>
 </template>

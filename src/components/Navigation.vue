@@ -43,6 +43,7 @@
         <ol>
             <li><a href="#courses">{{ $t('Courses.nav') }}</a></li>
             <li><a href="#relay">{{ $t('Relay.nav') }}</a></li>
+            <li><a href="#randomize">{{ $t('Randomizer.nav') }}</a></li>
         </ol>
     </nav>
 </template>
@@ -66,7 +67,7 @@
         a {
             text-decoration: none;
             display: inline-block;
-            color: #fff;
+            color: var(--color-brand-bg);
             transition: all 50ms ease-in-out;
             font-size: 1em;
             &:hover, &:focus {
@@ -74,10 +75,7 @@
             }
         }
         li.active > a {
-            text-decoration: underline;
-            text-underline-offset: 0.2em;
-            text-decoration-skip-ink: auto;
-            text-decoration-thickness: from-font;    
+            color: #fff;
         }
     }
         

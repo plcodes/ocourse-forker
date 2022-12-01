@@ -36,6 +36,7 @@
 
     },
     "Randomizer": {
+        "nav": "Arvonta",
         "title": "Arvonta",
         "amount": "Joukkueiden lukumäärä:",
         "cta": "Suorita arvonta",
@@ -43,7 +44,8 @@
         "explanation-data": "Tämä on viestin ns. Master data. Vie csv exceliin ja lisää oikeat joukkue- ja seuranimet. Sen jälkeen data kelpaa tulospalvelulle ja varakarttapisteelle.",
         "personalization": "Personointi",
         "courses": "Ratojen määrä {teams} joukkueella",
-        "course-personalizations": "Ratojen personoinnit (joukkue;osuus)"
+        "course-personalizations": "Ratojen personoinnit (joukkue;osuus)",
+        "no-data": "Luo ratamääritykset ja viestihajonnat ensin."
     },
     "Print": {
         "cta": "Tulosta",

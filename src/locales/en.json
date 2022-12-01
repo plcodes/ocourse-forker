@@ -29,12 +29,13 @@
     "Relay": {
         "nav": "Relay",
         "title": "Relay",
-        "no-courses": "Set courses first and click Create relay courses",
+        "no-courses": "Create courses first and click Create relay courses",
         "skip-selection": "Select combinations to skip",
         "team-combinations": "All team combinations in order",
         "allcourses-amounts": "Course amounts for full combination set"
     },
     "Randomizer": {
+        "nav": "Randomizer",
         "title": "Randomizer",
         "amount": "Amount of teams:",
         "cta": "Randomize",
@@ -42,7 +43,8 @@
         "explanation-data": "This is the relay's Master data. Just add actual team- and clubnames. Then it's valid for result service and reserve map officials.",
         "personalization": "Personalization",
         "courses": "Course amounts for {teams} teams",
-        "course-personalizations": "Course personalizations (team;leg)"
+        "course-personalizations": "Course personalizations (team;leg)",
+        "no-data": "Create courses and Relay data first."
     },
     "Print": {
         "cta": "Print",
