@@ -52,6 +52,7 @@
     /* Sticky Navigation */
     .section-nav {
         position: sticky;
+        z-index: 99;
         top: 0;
         margin: 0 -30px;
         padding: 10px 30px;
