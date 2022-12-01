@@ -85,10 +85,10 @@ export default {
     <h3>{{ $t('Courses.used-data') }}</h3>
     <CodeBlock :helptext="$t('Courses.explanation-used-data')"><pre>{{JSON.stringify(relayJson, undefined, 2)}}</pre></CodeBlock>
 
-    <p v-if="legsAreDefinedCorrectly">{{ $t('Courses.validation-legs-ok') }}</p>
-    <p v-else>{{ $t('Courses.validation-legs-invalid', { 'legCount': relayJson.legCount, 'legDefinitions': relayJson.legs.length}) }}</p>
-    <p v-if="forkingsAreDefinedCorrectly.status">{{ $t('Courses.validation-forkings-ok') }}</p>
-    <p v-else>{{ $t('Courses.validation-forkings-invalid') }} 
+    <p v-if="legsAreDefinedCorrectly" class="success">{{ $t('Courses.validation-legs-ok') }}</p>
+    <p v-else class="error">{{ $t('Courses.validation-legs-invalid', { 'legCount': relayJson.legCount, 'legDefinitions': relayJson.legs.length}) }}</p>
+    <p v-if="forkingsAreDefinedCorrectly.status" class="success">{{ $t('Courses.validation-forkings-ok') }}</p>
+    <p v-else class="error">{{ $t('Courses.validation-forkings-invalid') }} 
         {{ $t('Forkings.error', {
             'key': forkingsAreDefinedCorrectly.key, 
             'previous': forkingsAreDefinedCorrectly.previous,
@@ -113,9 +113,3 @@ export default {
   </template>
 
 </template>
-
-<style scoped>
-p {
-  color: #42b983;
-}
-</style>

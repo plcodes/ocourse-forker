@@ -37,18 +37,17 @@ export default {
   <section id="relay">
     <Relay :courseData="allCoursesForLegs"/>
   </section>
-  <!--div v-show="activeTab === 'randomizer'">
-    <Randomizer :relayData="filteredRelayData" :allCourses="allCourses"/>
-  </div-->
-
 </template>
 
 <style lang="scss">
 :root {
-  --color-brand-1: #05445E;
-  --color-brand-2: #189AB4;
-  --color-brand-3: #75E6DA;
-  --color-brand-4: #D4F1F4;
+  --color-brand-1: #122a5b;;
+  --color-brand-2: #455d7a;
+  --color-brand-3: #2b90c8;
+  --color-brand-4: #2bc9c8;
+  --color-brand-bg: #e2f9f9;
+  --color-brand-success: #009360;
+  --color-brand-error: #f95959;
 }
 * {
   box-sizing: border-box;
@@ -65,60 +64,88 @@ body {
   font-size: 16px;
   line-height: 1.25;
   color: var(--color-brand-1);
-  background: var(--color-brand-4);
+  background: var(--color-brand-bg);
 }
 section {
   padding-top: 60px;
 }
-
+a {
+  color: var(--color-brand-3);
+  text-underline-offset: 0.2em;
+  text-decoration-skip-ink: auto;
+  text-decoration-thickness: from-font;
+  word-break: break-all;
+}
+input[type=text], input[type=number], input[type=checkbox], textarea {
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  background: white;
+  color: var(--color-brand-1);
+  border: 1px solid var(--color-brand-3);
+  border-radius: 4px;
+  font-size: 1rem;
+  line-height: 1.25;
+}
+input[type=text], input[type=number] {
+  height: 2em;
+  padding: 0 0.5em;
+}
 textarea {
   min-height: 300px;
   width: 100%;
-  background: white;
-  border: 1px solid var(--color-brand-3);
   font-family: monospace;
   font-size: 14px;
 }
+input[type=checkbox] {
+  width: 1em;
+  height: 1em;
+}
 code {
-  border: 1px solid var(--color-brand-3);
+  border: 1px solid var(--color-brand-4);
   display: block;
   padding: 10px;
-  border-radius: 5px;
+  border-radius: 8px;
   font-family: monospace;
   font-size: 14px;
   line-height: 1.5;
-}
-
-.field-with-explanation {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 30px;
-  align-items: flex-start;
-  .data {
-    flex: 1 1 50%;
-  }
-  .explanation {
-    flex: 1 0 33.333%;
-    min-width: 200px;
-    padding: 20px;
-    border: 1px solid var(--color-brand-3);
-    border-radius: 5px;
-  }
+  max-width: 100%;
+  word-break: break-all;
 }
 
 .btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   font-family: inherit;
-  font-size: 1.5em;
-  padding: 0.5em 1em;
-  background: var(--color-brand-2);
+  font-size: 1.15em;
+  padding: 0 1em;
+  height: 2em;
+  background: var(--color-brand-3);
   color: white;
-  border: 1px solid var(--color-brand-1);
-  border-radius: 3px;
+  border: 1px solid var(--color-brand-3);
+  border-radius: 1em;
   cursor: pointer;
-  margin-top: 50px;
-  &:hover, &:focus {
-    text-decoration-line: underline;
-    text-underline-offset: 20%;
+  min-width: 8em;
+  margin: 30px 0 50px;
+  box-sizing: border-box;
+  transition: all 0.2s ease-in-out;
+  &:hover {
+    border-color: var(--color-brand-2);
   }
+}
+.btn--sub {
+  background: var(--color-brand-2);
+  font-size: 1em;
+  height: 1.5em;
+  min-width: 5em;
+  margin: 0;
+  border-radius: 0 0 4px 4px;
+  left: 4px;
+  position: relative;
+}
+.success {
+  color: var(--color-brand-success);
+}
+.error {
+  color: var(--color-brand-error);
 }
 </style>

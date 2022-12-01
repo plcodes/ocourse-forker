@@ -38,7 +38,7 @@
     "Randomizer": {
         "title": "Arvonta",
         "amount": "Joukkueiden lukumäärä:",
-        "cta": "Arvo",
+        "cta": "Suorita arvonta",
         "data": "Arvotut läpiviennit {teams} joukkueelle",
         "explanation-data": "Tämä on viestin ns. Master data. Vie csv exceliin ja lisää oikeat joukkue- ja seuranimet. Sen jälkeen data kelpaa tulospalvelulle ja varakarttapisteelle.",
         "personalization": "Personointi",

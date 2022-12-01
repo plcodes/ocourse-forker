@@ -47,39 +47,45 @@
     </nav>
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
     /* Sticky Navigation */
     .section-nav {
         position: sticky;
         top: 0;
         margin: 0 -30px;
         padding: 10px 30px;
-        background-color: var(--color-brand-3);
+        background-color: var(--color-brand-2);
+
+        ol {
+            display: flex;
+            gap: 30px;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+        a {
+            text-decoration: none;
+            display: inline-block;
+            color: #fff;
+            transition: all 50ms ease-in-out;
+            font-size: 1em;
+            &:hover, &:focus {
+                color: var(--color-brand-4);
+            }
+        }
+        li.active > a {
+            text-decoration: underline;
+            text-underline-offset: 0.2em;
+            text-decoration-skip-ink: auto;
+            text-decoration-thickness: from-font;    
+        }
     }
         
-    .section-nav ol {
-        display: flex;
-        gap: 30px;
-        list-style: none;
-        margin: 0;
-        padding: 0;
-    }
 
-    .section-nav a {
-        text-decoration: none;
-        display: inline-block;
-        color: var(--color-brand-2);
-        transition: all 50ms ease-in-out;
-        font-size: 1.5em;
-    }
-    
-    .section-nav a:hover,
-    .section-nav a:focus {
-        color: #ccc;
-    }
-    
-    .section-nav li.active > a {
-        color: var(--color-brand-1);
+    @media (min-width: 768px) {
+        .section-nav a {
+            font-size: 1.5em;
+        }
     }
     
 </style>

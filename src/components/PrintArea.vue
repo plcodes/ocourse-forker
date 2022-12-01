@@ -18,11 +18,14 @@ export default {
     <div class="print-area" :id="this.name">
         <slot></slot>
     </div>
-    <button @click="print">{{ $t('Print.cta') }}</button>
+    <button class="btn btn--sub" @click="print">{{ $t('Print.cta') }}</button>
 </template>
 
 <style scoped>
     .print-area {
         display: none;
+    }
+    .btn {
+        margin-left: 0.25em;
     }
 </style>
