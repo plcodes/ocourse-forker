@@ -6,6 +6,7 @@ import VueI18nPlugin from "@intlify/unplugin-vue-i18n/vite";
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  base: '/ocourse-forker/',
   plugins: [
     vue(),
     VueI18nPlugin({
@@ -20,6 +21,5 @@ export default defineConfig({
   test: {
     /* for example, use global to avoid globals imports (describe, test, expect): */
     // globals: true,
-  },
-  base: '/ocourse-forker/'
+  }
 })
