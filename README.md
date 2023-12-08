@@ -50,5 +50,6 @@ npm run
 npm run preview
 npm run test
 npm run test:ui
+npm run deploy
 ```
 
