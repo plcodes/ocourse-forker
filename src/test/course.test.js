@@ -18,6 +18,7 @@ const complexLeg = {
         {A1: [31,32], A2: [33,34], A3: [51,52], A4: [61,62]},
         72, 73,
         {B1: 35, B2: 36, B3: 37},
+        74,
         {C1: 91, C2: 92},
         75, 
         'M'
@@ -28,6 +29,16 @@ const invalidLeg = {
         'L1',
         {A1: [31,32], A2: [33,34]},
         {A1: [31], A2: 33},
+        'M'
+    ]}
+
+const invalidLegWithoutCommonControl = {
+    name: 'X',
+    course: [
+        'L1',
+        {A1: [31,32], A2: [33,34], A3: [51,52], A4: [61,62]},
+        {B1: 35, B2: 36, B3: 37},
+        75, 
         'M'
     ]}
 
@@ -137,6 +148,18 @@ test('Forkings are defined correctly', () => {
     const check2 = courseFn.checkForkingsAreDefinedCorrectly([invalidLeg]);
     expect(check2.status).toBe(false);
     expect(check2.key).not.eq('')
+})
+
+test('Forkings start from common control and end with one', () => {
+    const check1 = courseFn.checkForkingsStartAndEndWithCommonControl([simpleLeg]);
+    expect(check1.status).toBe(true);
+    expect(check1.forking).eq('')
+    const check2 = courseFn.checkForkingsStartAndEndWithCommonControl([invalidLeg]);
+    expect(check2.status).toBe(false);
+    expect(check2.forking).eq('{"A1":[31],"A2":33}')
+    const check3 = courseFn.checkForkingsStartAndEndWithCommonControl([invalidLegWithoutCommonControl]);
+    expect(check3.status).toBe(false);
+    expect(check3.forking).eq('{"B1":35,"B2":36,"B3":37}')
 })
 
 test('Get all forkings object', () => {

@@ -63,6 +63,30 @@ export const checkForkingsAreDefinedCorrectly = (legs) => {
     }
 };
 
+/**
+ * Checks that forkings start and end with common control, i.e. no forkings allowed straight after another
+ */
+
+export const checkForkingsStartAndEndWithCommonControl = (legs) => {
+    for(const leg of legs) {
+        for(let i=0; i < leg.course.length; i++) {
+            const control = leg.course[i],
+                  next = leg.course[i+1];
+            if(typeof control === 'object' && typeof next === 'object') {
+                return {
+                    status: false,
+                    forking: JSON.stringify(leg.course[i+1])
+                }
+
+            }
+        };
+    }
+    return {
+        status: true,
+        forking: ''
+    }
+};
+
 /** 
  * Example
  * [ [ "L1" ], [ "A1", "A2" ], [ 33 ], [ 34 ], [ "B1", "B2" ], [ 35 ], [ "M" ] ]

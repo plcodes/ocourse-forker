@@ -5,7 +5,7 @@ import * as courseFn from '../utils/course';
 import * as csvFn from '../utils/csv';
 import * as sampleData from '../data/sample/basic-models';
 import * as hrvData from '../data/sample/hrv2022';
-import * as venla from '../data/sample/2019venla';
+import { venla2019 } from "../data/sample/2019venla";
 
 export default {
     components: {
@@ -20,7 +20,7 @@ export default {
             courseHeader: csvFn.COURSE_HEADER_ROW,
             sampleData: sampleData,
             hrvData: hrvData,
-            venla: venla
+            venla2019: venla2019
         };
     },
     computed: {
@@ -29,6 +29,9 @@ export default {
         },
         forkingsAreDefinedCorrectly: function () {
             return this.relayJson ? courseFn.checkForkingsAreDefinedCorrectly(this.relayJson.legs) : undefined;
+        },
+        forkingsStartAndEndCorrectly: function () {
+            return this.relayJson ? courseFn.checkForkingsStartAndEndWithCommonControl(this.relayJson.legs) : undefined;
         },
     },
     methods: {
@@ -80,7 +83,7 @@ export default {
             <li><a href="#" v-on:click="copySampleData(sampleData.Farsta, $event)">Farsta</a></li>
             <li><a href="#" v-on:click="copySampleData(hrvData.hrv2022_H, $event)">HRV 2022 H</a></li>
             <li><a href="#" v-on:click="copySampleData(hrvData.hrv2022_D, $event)">HRV 2022 D</a></li>
-            <li><a href="#" v-on:click="copySampleData(venla.venla2019, $event)">Venla 2019</a></li>
+            <li><a href="#" v-on:click="copySampleData(venla2019, $event)">Venla 2019</a></li>
             </ul>
         </p>
     </div>
@@ -96,6 +99,8 @@ export default {
 
     <p v-if="legsAreDefinedCorrectly" class="success">{{ $t('Courses.validation-legs-ok') }}</p>
     <p v-else class="error">{{ $t('Courses.validation-legs-invalid', { 'legCount': relayJson.legCount, 'legDefinitions': relayJson.legs.length}) }}</p>
+    <p v-if="forkingsStartAndEndCorrectly.status" class="success">{{ $t('Courses.validation-forking-start-ok') }}</p>
+    <p v-else class="error">{{ $t('Courses.validation-forking-start-invalid', { 'forking': forkingsStartAndEndCorrectly.forking}) }}</p>
     <p v-if="forkingsAreDefinedCorrectly.status" class="success">{{ $t('Courses.validation-forkings-ok') }}</p>
     <p v-else class="error">{{ $t('Courses.validation-forkings-invalid') }} 
         {{ $t('Forkings.error', {
