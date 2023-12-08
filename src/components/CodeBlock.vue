@@ -1,8 +1,15 @@
 <script>
 export default {
-    props: [
-        'helptext'
-    ],
+    props: {
+        'helptext': {
+            default: undefined,
+            type: String
+        },
+        'cssClass': {
+            default: '',
+            type: String
+        }
+    },
     data() {
         return {
             msgVisible: false
@@ -26,7 +33,7 @@ export default {
 
 <template>
     <div class="with-explanation">
-        <code class="main-area" ref="codeContents">
+        <code class="main-area" :class="cssClass" ref="codeContents">
             <slot></slot>
         </code>
         <div class="help-area">

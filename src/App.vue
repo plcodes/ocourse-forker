@@ -94,6 +94,9 @@ textarea {
   width: 100%;
   font-family: monospace;
   font-size: 14px;
+  &.small {
+    min-height: 100px;
+  }
 }
 input[type=checkbox] {
   width: 1em;
@@ -109,6 +112,10 @@ code {
   line-height: 1.5;
   max-width: 100%;
   word-break: break-all;
+  &.small {
+    height: 200px;
+    overflow: auto;
+  }
 }
 
 .btn {

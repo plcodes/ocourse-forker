@@ -56,8 +56,7 @@ export default {
         },
         prettyPrint: function(json) {
             return stringify(json, {});
-        }
-        
+        }        
     },
     mounted: function () {},
     emits: ['coursesReady']
@@ -85,12 +84,11 @@ export default {
             </ul>
         </p>
     </div>
-
   </div>
-  <button class="btn" v-on:click="inputDone" type="button">{{ $t('Courses.confirm') }}</button>
   <p v-if="inputError">
     {{ $t('Courses.error') }}
   </p>
+  <button class="btn" v-on:click="inputDone" type="button">{{ $t('Courses.confirm') }}</button>
 
   <template v-if="relayJson">
     <h3>{{ $t('Courses.used-data') }}</h3>

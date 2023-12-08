@@ -9,7 +9,7 @@
         "nav": "Courses",
         "title": "Course Data",
         "input": "Input data",
-        "load-examples": "Course data in json format. Load existing samples",
+        "load-examples": "Course data in json format. Might be good to use proper editor for json, which can point possible syntax errors. Load existing samples",
         "confirm": "Use this data",
         "error": "Data is not valid",
         "used-data": "Ready data",
@@ -46,7 +46,13 @@
         "personalization": "Personalization",
         "courses": "Course amounts for {teams} teams",
         "course-personalizations": "Course personalizations (team;leg)",
-        "no-data": "Create courses and Relay data first."
+        "no-data": "Create courses and Relay data first.",
+        "previous": "Save randomized data for later use",
+        "previous-import": "Import previous data",
+        "previous-export-explanation": "Here is the data for full team combinations in randomized order. You can create the relay for as many teams as you want.",
+        "previous-import-explanation": "Import previous data here. Note! The data has to be valid.",
+        "previous-cta": "Import data",
+        "import-error": "Data is not valid"
     },
     "Print": {
         "cta": "Print",

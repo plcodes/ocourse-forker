@@ -1,4 +1,5 @@
 <script>
+import stringify from "json-stringify-pretty-compact";
 import CodeBlock from './CodeBlock.vue'
 import PrintArea from './PrintArea.vue'
 import * as relayFn from '../utils/relay';
@@ -14,9 +15,11 @@ export default {
         'allCourses'
     ],
     data() {
-        return {
+        return {            
             randomRelayData: undefined,
-            teamcount: 50
+            teamcount: 50,
+            inputtedRandomData: undefined,
+            inputError: false            
         }
     },
     computed: {
@@ -51,6 +54,14 @@ export default {
         randomizeCourses: function() {
             this.randomRelayData = relayFn.shuffleArray(this.relayData);
         },
+        copyPrevious: function() {
+            this.inputError = false;
+            try {
+                this.randomRelayData = JSON.parse(this.inputtedRandomData);
+            } catch (e) {
+                this.inputError = true;
+            }
+        },
         createCoursesArray: function(teamData) {
             let teams = [];
             for(const team of teamData) {
@@ -82,6 +93,9 @@ export default {
             if(!this.runnersForCourses) return;
             const value = this.runnersForCourses.get(courseName);
             return value ? value.length : 0;
+        },
+        prettyPrint: function(json) {
+            return stringify(json, {});
         }
     }
 }
@@ -89,7 +103,9 @@ export default {
 
 <template>
     <h2>{{ $t('Randomizer.title') }}</h2>
-    <template v-if="relayData.length">
+    <p v-if="!relayData.length">{{ $t('Randomizer.no-data') }}</p>
+
+    <template v-if="relayData.length || (randomRelayData && randomRelayData.length)">
         <p>{{ $t('Randomizer.amount') }} <input type="number" v-model="teamcount"></p>
         <button type="button" class="btn" v-on:click="randomizeCourses">{{ $t('Randomizer.cta') }}</button><br>
         <template v-if="randomRelayData">
@@ -132,7 +148,26 @@ export default {
             </div>
         </template>
     </template>
-    <template v-else>
-        <p>{{ $t('Randomizer.no-data') }}</p>
-    </template>
+
+    <section>
+        <h2>{{ $t('Randomizer.previous') }}</h2>
+        <CodeBlock css-class="small" :helptext="$t('Randomizer.previous-export-explanation')">
+            <pre>{{prettyPrint(randomRelayData)}}</pre>
+        </CodeBlock>
+        <h3>{{ $t('Randomizer.previous-import') }}</h3>
+        <div class="with-explanation">
+            <div class="main-area">
+                <textarea class="small" v-model="inputtedRandomData"></textarea>
+                <p v-if="inputError">
+                    {{ $t('Randomizer.import-error') }}
+                </p>
+                <button type="button" class="btn" v-on:click="copyPrevious">{{ $t('Randomizer.previous-cta') }}</button><br>
+            </div>
+            <div class="help-area">
+                <p class="help-text">
+                    {{ $t('Randomizer.previous-import-explanation') }}
+                </p>
+            </div>
+        </div>
+    </section>
 </template>

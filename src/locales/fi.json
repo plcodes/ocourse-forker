@@ -9,7 +9,7 @@
         "nav": "Ratamääritykset",
         "title": "Ratamääritykset",
         "input": "Syötedata",
-        "load-examples": "Ratamääritykset json-muodossa. Lataa valmis esimerkki",
+        "load-examples": "Ratamääritykset json-muodossa. Jsonin muokkaukseen kannattaa käyttää sopivaa editoria, joka osaa näyttää mahdolliset syntaksivirheet. Lataa valmis esimerkki",
         "confirm": "Käytä tätä dataa",
         "error": "Virhe luettaessa dataa",
         "used-data": "Valmis data",
@@ -47,7 +47,13 @@
         "personalization": "Personointi",
         "courses": "Ratojen määrä {teams} joukkueella",
         "course-personalizations": "Ratojen personoinnit (joukkue;osuus)",
-        "no-data": "Luo ratamääritykset ja viestihajonnat ensin."
+        "no-data": "Luo ratamääritykset ja viestihajonnat ensin.",
+        "previous": "Tallenna arvottu data myöhempää käyttöä varten",
+        "previous-import": "Tuo tallennettu data",
+        "previous-export-explanation": "Tässä yhdet täydet joukkueläpiviennit arvotussa järjestyksessä. Tästä datasta voi luoda viestin niin monelle joukkueelle kuin tarve.",
+        "previous-import-explanation": "Voit tuoda aiemmin luodun datan tähän. Ole tarkka että data on validia.",
+        "previous-cta": "Tuo data",
+        "import-error": "Virhe luettaessa dataa"
     },
     "Print": {
         "cta": "Tulosta",
