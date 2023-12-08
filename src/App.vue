@@ -148,4 +148,23 @@ code {
 .error {
   color: var(--color-brand-error);
 }
+.with-explanation {
+  display: flex;
+  align-items: flex-end;
+  gap: 10px 30px;
+  flex-wrap: wrap-reverse;
+
+  .help-area {
+      flex: 1 1 20vw;
+      min-width: 200px;
+  }
+  .help-text {
+      padding: 1em 0;
+      margin: 0;
+      color: var(--color-brand-2);
+  }
+  .main-area {
+      flex: 1 1 60vw;
+  }
+}
 </style>

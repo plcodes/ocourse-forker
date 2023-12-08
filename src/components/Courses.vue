@@ -1,4 +1,5 @@
 <script>
+import stringify from "json-stringify-pretty-compact";
 import CodeBlock from './CodeBlock.vue'
 import * as courseFn from '../utils/course';
 import * as csvFn from '../utils/csv';
@@ -33,7 +34,7 @@ export default {
     methods: {
         copySampleData: function(data, evt) {
             evt.preventDefault();
-            this.inputJson = JSON.stringify(data, undefined, 2);
+            this.inputJson = this.prettyPrint(data);
         },
         inputDone: function () {
             this.inputError = false;
@@ -52,6 +53,9 @@ export default {
         },
         createRelayCourses: function() {
             this.$emit('coursesReady', this.courseData)
+        },
+        prettyPrint: function(json) {
+            return stringify(json, {});
         }
         
     },
@@ -64,18 +68,25 @@ export default {
   <h2>{{ $t('Courses.title') }}</h2>
   
   <h3>{{ $t('Courses.input') }}</h3>
-  <p>
-    {{ $t('Courses.load-examples') }} 
-      <a href="#" v-on:click="copySampleData(sampleData.Motala, $event)">Motala</a>,
-      <a href="#" v-on:click="copySampleData(sampleData.MotalaWithLegs, $event)">Motala 2</a>,
-      <a href="#" v-on:click="copySampleData(sampleData.Vannes, $event)">Vännes</a>,
-      <a href="#" v-on:click="copySampleData(sampleData.VannesWithLegs, $event)">Vännes 2</a>,
-      <a href="#" v-on:click="copySampleData(sampleData.Farsta, $event)">Farsta</a>,
-      <a href="#" v-on:click="copySampleData(hrvData.hrv2022_H, $event)">HRV 2022 H</a>,
-      <a href="#" v-on:click="copySampleData(hrvData.hrv2022_D, $event)">HRV 2022 D</a>, 
-      <a href="#" v-on:click="copySampleData(venla.venla2019, $event)">Venla 2019</a>
-  </p>
-  <textarea v-model="inputJson"></textarea>
+  <div class="with-explanation">
+    <textarea class="main-area" v-model="inputJson"></textarea>
+    <div class="help-area">
+        <p class="help-text">
+            {{ $t('Courses.load-examples') }}
+            <ul>
+            <li><a href="#" v-on:click="copySampleData(sampleData.Motala, $event)">Motala</a></li>
+            <li><a href="#" v-on:click="copySampleData(sampleData.MotalaWithLegs, $event)">Motala 2</a></li>
+            <li><a href="#" v-on:click="copySampleData(sampleData.Vannes, $event)">Vännes</a></li>
+            <li><a href="#" v-on:click="copySampleData(sampleData.VannesWithLegs, $event)">Vännes 2</a></li>
+            <li><a href="#" v-on:click="copySampleData(sampleData.Farsta, $event)">Farsta</a></li>
+            <li><a href="#" v-on:click="copySampleData(hrvData.hrv2022_H, $event)">HRV 2022 H</a></li>
+            <li><a href="#" v-on:click="copySampleData(hrvData.hrv2022_D, $event)">HRV 2022 D</a></li>
+            <li><a href="#" v-on:click="copySampleData(venla.venla2019, $event)">Venla 2019</a></li>
+            </ul>
+        </p>
+    </div>
+
+  </div>
   <button class="btn" v-on:click="inputDone" type="button">{{ $t('Courses.confirm') }}</button>
   <p v-if="inputError">
     {{ $t('Courses.error') }}
@@ -83,7 +94,7 @@ export default {
 
   <template v-if="relayJson">
     <h3>{{ $t('Courses.used-data') }}</h3>
-    <CodeBlock :helptext="$t('Courses.explanation-used-data')"><pre>{{JSON.stringify(relayJson, undefined, 2)}}</pre></CodeBlock>
+    <CodeBlock :helptext="$t('Courses.explanation-used-data')"><pre>{{prettyPrint(relayJson)}}</pre></CodeBlock>
 
     <p v-if="legsAreDefinedCorrectly" class="success">{{ $t('Courses.validation-legs-ok') }}</p>
     <p v-else class="error">{{ $t('Courses.validation-legs-invalid', { 'legCount': relayJson.legCount, 'legDefinitions': relayJson.legs.length}) }}</p>

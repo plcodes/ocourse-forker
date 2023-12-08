@@ -1,7 +1,7 @@
 {
   "name": "forker",
   "private": true,
-  "version": "0.0.0",
+  "version": "0.0.1",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@intlify/unplugin-vue-i18n": "^0.8.0",
+    "json-stringify-pretty-compact": "^4.0.0",
     "vue": "^3.2.25",
     "vue-i18n": "^9.2.2"
   },

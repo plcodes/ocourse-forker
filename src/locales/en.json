@@ -9,7 +9,7 @@
         "nav": "Courses",
         "title": "Course Data",
         "input": "Input data",
-        "load-examples": "Load existing samples",
+        "load-examples": "Course data in json format. Load existing samples",
         "confirm": "Use this data",
         "error": "Data is not valid",
         "used-data": "Ready data",

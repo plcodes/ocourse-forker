@@ -9,7 +9,7 @@
         "nav": "Ratamääritykset",
         "title": "Ratamääritykset",
         "input": "Syötedata",
-        "load-examples": "Lataa valmis esimerkki",
+        "load-examples": "Ratamääritykset json-muodossa. Lataa valmis esimerkki",
         "confirm": "Käytä tätä dataa",
         "error": "Virhe luettaessa dataa",
         "used-data": "Valmis data",

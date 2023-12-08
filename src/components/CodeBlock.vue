@@ -25,8 +25,8 @@ export default {
 </script>
 
 <template>
-    <div class="code-area">
-        <code ref="codeContents">
+    <div class="with-explanation">
+        <code class="main-area" ref="codeContents">
             <slot></slot>
         </code>
         <div class="help-area">
@@ -38,24 +38,6 @@ export default {
 </template>
 
 <style lang="scss" scoped>
-    .code-area {
-        display: flex;
-        align-items: flex-end;
-        gap: 10px 30px;
-        flex-wrap: wrap-reverse;
-    }
-    .help-area {
-        flex: 1 1 20vw;
-        min-width: 200px;
-    }
-    .help-text {
-        padding: 1em 0;
-        margin: 0;
-        color: var(--color-brand-2);
-    }
-    code {
-        flex: 1 1 60vw;
-    }
     .info-msg {
         display: inline-block;
         padding: 0.25em 1em;
