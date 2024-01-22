@@ -6,6 +6,7 @@ import * as csvFn from '../utils/csv';
 import * as sampleData from '../data/sample/basic-models';
 import * as hrvData from '../data/sample/hrv2022';
 import { venla2019 } from "../data/sample/2019venla";
+import { jukola2019 } from "../data/sample/2019jukola";
 
 export default {
     components: {
@@ -20,7 +21,8 @@ export default {
             courseHeader: csvFn.COURSE_HEADER_ROW,
             sampleData: sampleData,
             hrvData: hrvData,
-            venla2019: venla2019
+            venla2019: venla2019,
+            jukola2019: jukola2019
         };
     },
     computed: {
@@ -84,6 +86,7 @@ export default {
             <li><a href="#" v-on:click="copySampleData(hrvData.hrv2022_H, $event)">HRV 2022 H</a></li>
             <li><a href="#" v-on:click="copySampleData(hrvData.hrv2022_D, $event)">HRV 2022 D</a></li>
             <li><a href="#" v-on:click="copySampleData(venla2019, $event)">Venla 2019</a></li>
+            <li><a href="#" v-on:click="copySampleData(jukola2019, $event)">Jukola 2019</a></li>
             </ul>
         </p>
     </div>

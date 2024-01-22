@@ -33,7 +33,7 @@ export const getFullForkings = (courseArray = []) => {
     return getFullForkingsFromAllCombinations(allCombinations);
 }
 const getFullForkingsFromAllCombinations = (allCombinations = []) => {
-    return uniqueValues(allCombinations.flat().flat())
+    return uniqueValues(allCombinations.flat(2))
 }
 
 export const cartesianProductFromAllLegs = (array) => {
@@ -44,6 +44,10 @@ export const cartesianProductFromAllLegs = (array) => {
 } 
 
 export const arrayContainsAll = (a,b) => a.length === b.length && a.every(value => b.includes(value));
+
+export const arrayHasDuplicates = (array) => {
+    return (new Set(array)).size !== array.length;
+}
 
 /**
  * Get all valid combinations for the full relay
@@ -89,14 +93,72 @@ export const getValidTeamCombinations = (courseData = []) => {
     if(!courseData || courseData.length == 0) return;
     
     const allCoursesForLegs = getAllCombinations(courseData),
-        allPossibleCombinations = cartesianProductFromAllLegs(allCoursesForLegs),
         fullForkings = getFullForkingsFromAllCombinations(allCoursesForLegs);
-    
-    return allPossibleCombinations.filter(course => {
+    let allPossibleCombinations = [];
+
+    if(courseData.length < 5) {
+        // in simple relays we can just check every possible combination from all legs
+        allPossibleCombinations = cartesianProductFromAllLegs(allCoursesForLegs);    
+    } else {
+        // when leg count and the amount of possible variants increase, we must do this in pieces
+        // e.g. in Jukola 24*24*24*8*8*16*16 = 226.492.416 combinations 
+
+        // combine 2 first legs
+        allPossibleCombinations = removeDuplicateForkings(cartesianProductFromAllLegs([allCoursesForLegs[0], allCoursesForLegs[1]]));
+        
+        // add next ones one by one
+        for(let i = 2; i < allCoursesForLegs.length; i++) {
+            allPossibleCombinations = addNextLegToCombinations(allCoursesForLegs[i], allPossibleCombinations);
+        }
+    }
+
+    return takeOnlyFullForkings(allPossibleCombinations, fullForkings);
+}
+
+export const removeDuplicateForkings = (combinations) => {
+    return combinations.filter(combination => {
+        return !arrayHasDuplicates(combination.flat(Infinity));
+    });
+}
+
+/* 
+ * Filter out combinations, where not all forkings are fulfilled
+ */
+export const takeOnlyFullForkings = (combinations, fullForkings) => {
+    return combinations.filter(course => {
         return arrayContainsAll(uniqueValues(course.flat()),fullForkings)
     });
 }
 
+export const addNextLegToCombinations = (nextLeg, previousLegs) => {
+    let arr = cartesianProductFromAllLegs([previousLegs, nextLeg]);
+    
+    //filter out ones, which have some forking multiple times
+    let result = removeDuplicateForkings(arr);
+    return modifyCombinationsToBeInSameLevel(result);
+}
+
+/**
+ * Modify result arrays to be on the same level
+ * In: 
+ * [
+ *  [[["A","D","F"],["B","I","G"]],["C","E","H"]],
+ *  [[["A","D","F"],["B","I","H"]],["C","E","G"]]
+ * ]
+ * Out: 
+ * [
+ *  [["A","D","F"],["B","I","G"],["C","E","H"]],
+ *  [["A","D","F"],["B","I","H"],["C","E","G"]]
+ * ]
+ */ 
+export const modifyCombinationsToBeInSameLevel = (combinations) => {
+    let result = combinations.map((arr) => {
+        return arr.flatMap((inner) => {
+            return Array.isArray(inner[0]) ? inner : [inner]
+        });
+    });
+    return result;
+}
 
 export const createCourseObjectsMapByCourseName = (courseData) => {
     let map = new Map();

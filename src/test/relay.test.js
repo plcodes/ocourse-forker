@@ -168,3 +168,16 @@ test('Venla 2019', () => {
     expect(teamCombinationsFullData.length).toBe(384);
 })
 
+test('Test partial cartesian product level fix', () => {
+    const input = [
+        [[["A","D","F"],["B","I","G"]],["C","E","H"]],
+        [[["A","D","F"],["B","I","H"]],["C","E","G"]]
+    ];
+    const out = [
+        [["A","D","F"],["B","I","G"],["C","E","H"]],
+        [["A","D","F"],["B","I","H"],["C","E","G"]]
+    ];
+    const outStr = JSON.stringify(out);
+    expect(JSON.stringify(relayFn.modifyCombinationsToBeInSameLevel(input))).toEqual(outStr);
+});
+

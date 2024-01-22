@@ -28,7 +28,7 @@ export default {
         },
         validCombinations: function() {
             if(!this.courseData) return;
-            return relayFn.getValidTeamCombinations(this.courseData)
+            return relayFn.getValidTeamCombinations(this.courseData);
         },
         validCombinationsWithId: function() {
             if (!this.validCombinations) return;
