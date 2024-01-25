@@ -3,8 +3,8 @@ import stringify from "json-stringify-pretty-compact";
 import CodeBlock from './CodeBlock.vue'
 import * as courseFn from '../utils/course';
 import * as csvFn from '../utils/csv';
-import * as sampleData from '../data/sample/basic-models';
-import * as hrvData from '../data/sample/hrv2022';
+import * as basicExamples from '../data/sample/basic-models';
+import * as hrv2022 from '../data/sample/hrv2022';
 import { venla2019 } from "../data/sample/2019venla";
 import { jukola2019 } from "../data/sample/2019jukola";
 
@@ -19,10 +19,12 @@ export default {
             relayJson: undefined,
             courseData: [],
             courseHeader: csvFn.COURSE_HEADER_ROW,
-            sampleData: sampleData,
-            hrvData: hrvData,
-            venla2019: venla2019,
-            jukola2019: jukola2019
+            examples: {
+                basicExamples: basicExamples,
+                hrv2022: hrv2022,
+                venla2019: venla2019,
+                jukola2019: jukola2019
+            }
         };
     },
     computed: {
@@ -78,15 +80,15 @@ export default {
         <p class="help-text">
             {{ $t('Courses.load-examples') }}
             <ul>
-            <li><a href="#" v-on:click="copySampleData(sampleData.Motala, $event)">Motala</a></li>
-            <li><a href="#" v-on:click="copySampleData(sampleData.MotalaWithLegs, $event)">Motala 2</a></li>
-            <li><a href="#" v-on:click="copySampleData(sampleData.Vannes, $event)">Vännes</a></li>
-            <li><a href="#" v-on:click="copySampleData(sampleData.VannesWithLegs, $event)">Vännes 2</a></li>
-            <li><a href="#" v-on:click="copySampleData(sampleData.Farsta, $event)">Farsta</a></li>
-            <li><a href="#" v-on:click="copySampleData(hrvData.hrv2022_H, $event)">HRV 2022 H</a></li>
-            <li><a href="#" v-on:click="copySampleData(hrvData.hrv2022_D, $event)">HRV 2022 D</a></li>
-            <li><a href="#" v-on:click="copySampleData(venla2019, $event)">Venla 2019</a></li>
-            <li><a href="#" v-on:click="copySampleData(jukola2019, $event)">Jukola 2019</a></li>
+            <li><a href="#" v-on:click="copySampleData(examples.basicExamples.Motala, $event)">Motala</a></li>
+            <li><a href="#" v-on:click="copySampleData(examples.basicExamples.MotalaWithLegs, $event)">Motala 2</a></li>
+            <li><a href="#" v-on:click="copySampleData(examples.basicExamples.Vannes, $event)">Vännes</a></li>
+            <li><a href="#" v-on:click="copySampleData(examples.basicExamples.VannesWithLegs, $event)">Vännes 2</a></li>
+            <li><a href="#" v-on:click="copySampleData(examples.basicExamples.Farsta, $event)">Farsta</a></li>
+            <li><a href="#" v-on:click="copySampleData(examples.hrv2022.hrv2022_H, $event)">HRV 2022 H</a></li>
+            <li><a href="#" v-on:click="copySampleData(examples.hrv2022.hrv2022_D, $event)">HRV 2022 D</a></li>
+            <li><a href="#" v-on:click="copySampleData(examples.venla2019, $event)">Venla 2019</a></li>
+            <li><a href="#" v-on:click="copySampleData(examples.jukola2019, $event)">Jukola 2019</a></li>
             </ul>
         </p>
     </div>
