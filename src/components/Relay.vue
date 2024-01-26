@@ -10,7 +10,8 @@ export default {
         CodeBlock
     },
     props: [
-        'courseData'
+        'courseData',
+        'teamForkingRules'
     ],
     data() {
         return {
@@ -28,7 +29,7 @@ export default {
         },
         validCombinations: function() {
             if(!this.courseData) return;
-            return relayFn.getValidTeamCombinations(this.courseData);
+            return relayFn.getValidTeamCombinations(this.courseData, this.teamForkingRules);
         },
         validCombinationsWithId: function() {
             if (!this.validCombinations) return;
@@ -128,6 +129,7 @@ export default {
     <h2>{{ $t('Relay.title') }}</h2>
     <template v-if="courseData.length">
         <template v-if="relayData">
+            <p>Total: {{ validCombinationsWithId.length }}</p>
             <h3>{{ $t('Relay.skip-selection') }}</h3>
             <div>
                 <div v-for="(combination, index) in validCombinationsWithId" :key="combination.id">

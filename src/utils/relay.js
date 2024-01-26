@@ -89,7 +89,7 @@ export const arrayHasDuplicates = (array) => {
  *  ...
  * ]
  */
-export const getValidTeamCombinations = (courseData = []) => {
+export const getValidTeamCombinations = (courseData = [], filterRelayRules = []) => {
     if(!courseData || courseData.length == 0) return;
     
     const allCoursesForLegs = getAllCombinations(courseData),
@@ -98,7 +98,9 @@ export const getValidTeamCombinations = (courseData = []) => {
 
     if(courseData.length < 5) {
         // in simple relays we can just check every possible combination from all legs
-        allPossibleCombinations = cartesianProductFromAllLegs(allCoursesForLegs);    
+        allPossibleCombinations = cartesianProductFromAllLegs(allCoursesForLegs);
+        allPossibleCombinations = takeOnlyFullForkings(allPossibleCombinations, fullForkings);
+        allPossibleCombinations = takeOnlyAllowedTeamCombinations(allPossibleCombinations, filterRelayRules);
     } else {
         // when leg count and the amount of possible variants increase, we must do this in pieces
         // e.g. in Jukola 24*24*24*8*8*16*16 = 226.492.416 combinations 
@@ -109,10 +111,31 @@ export const getValidTeamCombinations = (courseData = []) => {
         // add next ones one by one
         for(let i = 2; i < allCoursesForLegs.length; i++) {
             allPossibleCombinations = addNextLegToCombinations(allCoursesForLegs[i], allPossibleCombinations);
+            // check if the number of combinations can already be filtered by team combination rules. It makes the cartesian product faster.
+            allPossibleCombinations = takeOnlyAllowedTeamCombinations(allPossibleCombinations, filterRelayRules);
         }
+        allPossibleCombinations = takeOnlyFullForkings(allPossibleCombinations, fullForkings);
     }
+    return allPossibleCombinations;
+}
 
-    return takeOnlyFullForkings(allPossibleCombinations, fullForkings);
+const takeOnlyAllowedTeamCombinations = (combinations, teamForkingRules) => {
+    if(!teamForkingRules.length) return combinations;
+
+    return combinations.filter(combination => {
+        return teamForkingRules.every(rule => !(isCombinationExcludedInTeamForkingRules(combination, rule)));
+    })
+}
+
+const isCombinationExcludedInTeamForkingRules = (combination, rule) => {
+    const maxLeg = Math.max(rule.if.leg, rule.then.leg);
+    if(combination.length < maxLeg) return false;
+    return forkingsFromLeg(combination, rule.if.leg).includes(rule.if.forking) 
+        && !(forkingsFromLeg(combination, rule.then.leg).includes(rule.then.forking));
+}
+
+const forkingsFromLeg = (combination, leg) => {
+    return combination[leg-1];
 }
 
 export const removeDuplicateForkings = (combinations) => {

@@ -59,7 +59,7 @@ export default {
             return csvFn.courseToCsvRow(relayName, courseName, length, climb, courseId, controls);
         },
         createRelayCourses: function() {
-            this.$emit('coursesReady', this.courseData)
+            this.$emit('coursesReady', {courseData: this.courseData, teamForkingRules: this.relayJson.teamForkingRules})
         },
         prettyPrint: function(json) {
             return stringify(json, {});

@@ -118,6 +118,17 @@ const sampleCourseData = [
     },
 ]
 
+const sampleTeamForkingRules = [
+    {if: {leg: 1, forking:'A'}, then: {leg: 3, forking:'C'}},
+    {if: {leg: 1, forking:'C'}, then: {leg: 3, forking:'A'}},
+    {if: {leg: 2, forking:'B'}, then: {leg: 3, forking:'C'}},
+]
+const sampleBogusTeamForkingRules = [
+    {if: {leg: 1, forking:'A'}, then: {leg: 7, forking:'C'}},
+    {if: {leg: 5, forking:'C'}, then: {leg: 5, forking:'A'}},
+    {if: {leg: 1, forking:'XXX'}, then: {leg: 2, forking:'YYY'}},
+]
+
 test('Full forkings', () => {
     const full = relayFn.getFullForkings(sampleCourseData);
     expect(JSON.stringify(full)).toEqual('["A","B","C"]')
@@ -136,6 +147,16 @@ test('All team combinations', () => {
 
 test('All valid team combinations', () => {
     const validTeamCombinations = relayFn.getValidTeamCombinations(sampleCourseData);
+    expect(validTeamCombinations.length).toBe(6);
+})
+
+test('All valid team combinations when team forking rules are set', () => {
+    const validTeamCombinations = relayFn.getValidTeamCombinations(sampleCourseData, sampleTeamForkingRules);
+    expect(validTeamCombinations.length).toBe(3);
+})
+
+test('All valid team combinations when invalid team forking rules are set', () => {
+    const validTeamCombinations = relayFn.getValidTeamCombinations(sampleCourseData, sampleBogusTeamForkingRules);
     expect(validTeamCombinations.length).toBe(6);
 })
 
