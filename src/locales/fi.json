@@ -55,7 +55,9 @@
         "previous-export-explanation": "Tässä yhdet täydet joukkueläpiviennit arvotussa järjestyksessä. Tästä datasta voi luoda viestin niin monelle joukkueelle kuin tarve.",
         "previous-import-explanation": "Voit tuoda aiemmin luodun datan tähän. Ole tarkka että data on validia.",
         "previous-cta": "Tuo data",
-        "import-error": "Virhe luettaessa dataa"
+        "import-error": "Virhe luettaessa dataa",
+        "randomizer-status-ok": "Säännöt täyttävä kombinaatio löytyi arvonnassa",
+        "randomizer-status-fail": "Säännöt täyttävää kombinaatiota ei löytynyt. Arvontoja {count} kpl."
     },
     "Print": {
         "cta": "Tulosta",

@@ -2,6 +2,7 @@
 import Randomizer from './Randomizer.vue'
 import CodeBlock from './CodeBlock.vue'
 import * as relayFn from '../utils/relay';
+import * as randomFn from '../utils/random';
 import * as csvFn from '../utils/csv';
 
 export default {
@@ -11,7 +12,8 @@ export default {
     },
     props: [
         'courseData',
-        'teamForkingRules'
+        'teamForkingRules',
+        'randomRules'
     ],
     data() {
         return {
@@ -114,7 +116,7 @@ export default {
                 const combinationsToDrop = this.relayData.length - this.randomCombinationsAmount;
                 let copiedArray = this.relayData.slice(0);
                 for(let i=0; i<combinationsToDrop; i++) {
-                    copiedArray = relayFn.shuffleArray(copiedArray);
+                    copiedArray = randomFn.shuffleArray(copiedArray);
                     const removed = copiedArray.shift();
                     const removedKey = removed.map(course => course.forkingId).join('');
                     this.droppedOutCourses.push(removedKey);
@@ -167,7 +169,7 @@ export default {
         <p>{{ $t('Relay.no-courses') }}</p>
     </template>
     <section id="randomize">
-        <Randomizer :relayData="filteredRelayData" :allCourses="allCourses"/>
+        <Randomizer :relayData="filteredRelayData" :allCourses="allCourses" :randomRules="randomRules" />
     </section>
 </template>
 

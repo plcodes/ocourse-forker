@@ -1,8 +1,8 @@
 <script>
 import stringify from "json-stringify-pretty-compact";
-import CodeBlock from './CodeBlock.vue'
-import PrintArea from './PrintArea.vue'
-import * as relayFn from '../utils/relay';
+import CodeBlock from './CodeBlock.vue';
+import PrintArea from './PrintArea.vue';
+import * as randomFn from '../utils/random';
 
 
 export default {
@@ -12,14 +12,17 @@ export default {
     },
     props: [
         'relayData',
-        'allCourses'
+        'allCourses',
+        'randomRules'
     ],
     data() {
         return {            
             randomRelayData: undefined,
             teamcount: 50,
             inputtedRandomData: undefined,
-            inputError: false            
+            inputError: false, 
+            randomWasSuccessful: false,
+            randomTries: 0                  
         }
     },
     computed: {
@@ -52,7 +55,15 @@ export default {
     },
     methods: {
         randomizeCourses: function() {
-            this.randomRelayData = relayFn.shuffleArray(this.relayData);
+            if(this.randomRules) {
+                const status = randomFn.shuffleUntilRulesMet(this.relayData, this.randomRules);
+                this.randomRelayData = status.data;
+                this.randomWasSuccessful = status.success;
+                this.randomTries = status.loops;
+            } else {
+                this.randomRelayData = randomFn.shuffleArray(this.relayData);
+            }
+
         },
         copyPrevious: function() {
             this.inputError = false;
@@ -108,6 +119,10 @@ export default {
     <template v-if="relayData.length || (randomRelayData && randomRelayData.length)">
         <p>{{ $t('Randomizer.amount') }} <input type="number" v-model="teamcount"></p>
         <button type="button" class="btn" v-on:click="randomizeCourses">{{ $t('Randomizer.cta') }}</button><br>
+        <template v-if="randomRules && randomRelayData">
+            <p v-if="randomWasSuccessful">{{ $t('Randomizer.randomizer-status-ok') }}</p>
+            <p v-else>{{ $t('Randomizer.randomizer-status-fail', {'count': randomTries}) }}</p>
+        </template>
         <template v-if="randomRelayData">
             <h2>{{ $t('Randomizer.data', {'teams': this.teamcount}) }}</h2>
             <CodeBlock :helptext="$t('Randomizer.explanation-data')">

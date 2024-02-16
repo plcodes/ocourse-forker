@@ -14,13 +14,15 @@ export default {
   data() {
     return {
       allCoursesForLegs: [],
-      teamForkingRules: []
+      teamForkingRules: [],
+      randomRules: []
     };
   },
   methods: {
-    setCourses: function({courseData, teamForkingRules}) {
+    setCourses: function({courseData, teamForkingRules, randomRules}) {
       this.allCoursesForLegs = courseData;
-      this.teamForkingRules = teamForkingRules
+      this.teamForkingRules = teamForkingRules;
+      this.randomRules = randomRules;
     }
   }
 }
@@ -37,7 +39,7 @@ export default {
     <Courses @coursesReady="setCourses"/>
   </section>
   <section id="relay">
-    <Relay :courseData="allCoursesForLegs" :teamForkingRules="teamForkingRules"/>
+    <Relay :courseData="allCoursesForLegs" :teamForkingRules="teamForkingRules" :randomRules="randomRules"/>
   </section>
 </template>
 

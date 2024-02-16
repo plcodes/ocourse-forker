@@ -54,7 +54,9 @@
         "previous-export-explanation": "Here is the data for full team combinations in randomized order. You can create the relay for as many teams as you want.",
         "previous-import-explanation": "Import previous data here. Note! The data has to be valid.",
         "previous-cta": "Import data",
-        "import-error": "Data is not valid"
+        "import-error": "Data is not valid",
+        "randomizer-status-ok": "A combination fulfilling the given rules was found!",
+        "randomizer-status-fail": "A combination fulfilling the given rules was not found. Tried {count} times."
     },
     "Print": {
         "cta": "Print",
