@@ -40,7 +40,7 @@ Install everything (from the project root)
 ```
 npm install
 ```
-Start the develop version in http://localhost:3000/ocourse-forker/ 
+Start the develop version in http://localhost:5173/ocourse-forker/
 ```
 npm run dev
 ```
