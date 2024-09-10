@@ -32,6 +32,7 @@ export default {
   <LocaleSelect />
   <h1>{{ $t('title') }}</h1>
   <p v-html="$t('description')"></p>
+  <p v-html="$t('description2')"></p>
 
   <Navigation/>
 

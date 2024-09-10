@@ -1,6 +1,6 @@
 # Orienteering Relay Forker
 
-This is a tool to help orienteering course setters to automatically create orienteering relay courses from control codes and relay variants.
+This is a tool to help orienteering course setters to automatically create orienteering relay courses from control codes and relay variants. Created by Petteri Laitinen.
 Live version is available in GitHub Pages https://plcodes.github.io/ocourse-forker/
 
 ## Security

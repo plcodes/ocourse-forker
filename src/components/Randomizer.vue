@@ -19,10 +19,12 @@ export default {
         return {            
             randomRelayData: undefined,
             teamcount: 50,
+            firstTeamNumber: 1,
             inputtedRandomData: undefined,
             inputError: false, 
             randomWasSuccessful: false,
-            randomTries: 0                  
+            randomTries: 0,
+            printMode: "normal"               
         }
     },
     computed: {
@@ -34,12 +36,13 @@ export default {
         },
         teamData: function() {
             if(!this.sufficientAmountOfTeams) return;
+            const start = this.firstTeamNumber;
             return this.sufficientAmountOfTeams.map(function(teamCourse, index) {
                 return {
-                    number: index+1,
+                    number: index + start,
                     // number: 100 + index+1,
                     //name: viestiliiga.teams[index] || 'Joukkue '+(index+1),
-                    name: 'Joukkue '+(index+1),
+                    name: 'Joukkue '+(index + start),
                     courses: teamCourse
                 }
             })
@@ -54,7 +57,13 @@ export default {
         }
     },
     methods: {
+        clearResults: function() {
+            this.randomRelayData = undefined;
+            this.randomWasSuccessful = false;
+            this.randomTries = 0;
+        },
         randomizeCourses: function() {
+            this.clearResults();
             if(this.randomRules) {
                 const status = randomFn.shuffleUntilRulesMet(this.relayData, this.randomRules);
                 this.randomRelayData = status.data;
@@ -118,6 +127,7 @@ export default {
 
     <template v-if="relayData.length || (randomRelayData && randomRelayData.length)">
         <p>{{ $t('Randomizer.amount') }} <input type="number" v-model="teamcount"></p>
+        <p>{{ $t('Randomizer.first-number') }} <input type="number" v-model="firstTeamNumber"></p>
         <button type="button" class="btn" v-on:click="randomizeCourses">{{ $t('Randomizer.cta') }}</button><br>
         <template v-if="randomRules && randomRelayData">
             <p v-if="randomWasSuccessful">{{ $t('Randomizer.randomizer-status-ok') }}</p>
@@ -144,6 +154,10 @@ export default {
             </CodeBlock>
 
             <h3>{{ $t('Randomizer.course-personalizations') }}</h3>
+            <p>{{ $t('Randomizer.printmode') }} 
+                <label><input type="radio" name="printMode" value="normal" :id="printMode" v-model="printMode"/>{{ $t('Randomizer.printmode-normal') }}</label>
+                <label><input type="radio" name="printMode" value="vertical" :id="printMode" v-model="printMode"/>{{ $t('Randomizer.printmode-vertical') }}</label>
+            </p>
             <div v-for="[key, value] in runnersForCourses">
                 <h4>{{key}}</h4>
                 <CodeBlock>
@@ -154,9 +168,17 @@ export default {
                 </CodeBlock>
                 <PrintArea :name="key">
                     <template v-for="team in value">
-                        <div class="printpage">
-                            <h1>{{team.team}}</h1>
-                            <h2>{{team.leg}}. <span class="leg">{{ $t('Print.leg') }}</span></h2>
+                        <div v-if="printMode=='vertical'" class="printpage printpage--vertical">
+                            <div class="print-content">
+                                <h1>{{team.team}}</h1>
+                                <h2><span class="leg">{{ $t('Print.leg') }}</span> {{team.leg}}</h2>
+                            </div>
+                        </div>
+                        <div v-else class="printpage">
+                            <div class="print-content">
+                                <h1>{{team.team}}</h1>
+                                <h2>{{team.leg}}. <span class="leg">{{ $t('Print.leg') }}</span></h2>
+                            </div>
                         </div>
                     </template>
                 </PrintArea>
@@ -179,9 +201,9 @@ export default {
                 <button type="button" class="btn" v-on:click="copyPrevious">{{ $t('Randomizer.previous-cta') }}</button><br>
             </div>
             <div class="help-area">
-                <p class="help-text">
+                <div class="help-text">
                     {{ $t('Randomizer.previous-import-explanation') }}
-                </p>
+                </div>
             </div>
         </div>
     </section>

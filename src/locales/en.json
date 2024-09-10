@@ -1,7 +1,8 @@
 
 {
     "title": "Orienteering Relay Forker",
-    "description": "This tool helps you to automatically create orienteering relay courses from control codes and relay variants. The page works as is, it doesn't send or store the data anywhere and it doesn't contain any 3rd party tracking scripts. Source code: <a href='https://github.com/plcodes/ocourse-forker' target='_blank'>https://github.com/plcodes/ocourse-forker</a>",
+    "description": "A tool to help you create orienteering relay courses automatically from control codes and relay variants. Created by Petteri Laitinen.<br>It would be nice to hear if you use this tool and the forkings you created could be used as an example. Please contact me at petterila(a)gmail.com",
+    "description2": "The page works as is, it doesn't send or store the data anywhere and it doesn't contain any 3rd party tracking scripts. Source code: <a href='https://github.com/plcodes/ocourse-forker' target='_blank'>https://github.com/plcodes/ocourse-forker</a>",
     "copy-to-clipboard": "Copy to clipboard",
     "copy-done": "Copied",
 
@@ -42,12 +43,16 @@
         "nav": "Randomizer",
         "title": "Randomizer",
         "amount": "Amount of teams:",
+        "first-number": "First team number:",
         "cta": "Randomize",
         "data": "Randomized data for {teams} teams",
         "explanation-data": "This is the relay's Master data. Just add actual team- and clubnames. Then it's valid for result service and reserve map officials.",
         "personalization": "Personalization",
         "courses": "Course amounts for {teams} teams",
         "course-personalizations": "Course personalizations (team;leg)",
+        "printmode": "Print mode:",
+        "printmode-normal": "Bottom right",
+        "printmode-vertical": "Bottom left, vertical",
         "no-data": "Create courses and Relay data first.",
         "previous": "Save randomized data for later use",
         "previous-import": "Import previous data",

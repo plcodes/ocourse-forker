@@ -7,6 +7,7 @@ import * as basicExamples from '../data/sample/basic-models';
 import * as hrv2022 from '../data/sample/hrv2022';
 import { venla2019 } from "../data/sample/2019venla";
 import { jukola2019 } from "../data/sample/2019jukola";
+import { jukola2024 } from "../data/sample/2024jukola";
 
 export default {
     components: {
@@ -23,7 +24,8 @@ export default {
                 basicExamples: basicExamples,
                 hrv2022: hrv2022,
                 venla2019: venla2019,
-                jukola2019: jukola2019
+                jukola2019: jukola2019,
+                jukola2024: jukola2024
             }
         };
     },
@@ -81,7 +83,7 @@ export default {
   <div class="with-explanation">
     <textarea class="main-area" v-model="inputJson"></textarea>
     <div class="help-area">
-        <p class="help-text">
+        <div class="help-text">
             {{ $t('Courses.load-examples') }}
             <ul>
             <li><a href="#" v-on:click="copySampleData(examples.basicExamples.Motala, $event)">Motala</a></li>
@@ -89,12 +91,14 @@ export default {
             <li><a href="#" v-on:click="copySampleData(examples.basicExamples.Vannes, $event)">Vännes</a></li>
             <li><a href="#" v-on:click="copySampleData(examples.basicExamples.VannesWithLegs, $event)">Vännes 2</a></li>
             <li><a href="#" v-on:click="copySampleData(examples.basicExamples.Farsta, $event)">Farsta</a></li>
-            <li><a href="#" v-on:click="copySampleData(examples.hrv2022.hrv2022_H, $event)">HRV 2022 H</a></li>
-            <li><a href="#" v-on:click="copySampleData(examples.hrv2022.hrv2022_D, $event)">HRV 2022 D</a></li>
-            <li><a href="#" v-on:click="copySampleData(examples.venla2019, $event)">Venla 2019</a></li>
-            <li><a href="#" v-on:click="copySampleData(examples.jukola2019, $event)">Jukola 2019</a></li>
+            <li><a href="#" v-on:click="copySampleData(examples.venla2019, $event)">2019 Venla</a></li>
+            <li><a href="#" v-on:click="copySampleData(examples.jukola2019, $event)">2019 Jukola</a></li>
+            <li><a href="#" v-on:click="copySampleData(examples.hrv2022.hrv2022_H, $event)">2022 HRV H</a></li>
+            <li><a href="#" v-on:click="copySampleData(examples.hrv2022.hrv2022_H_randomrules, $event)">2022 HRV H (randomRules)</a></li>
+            <li><a href="#" v-on:click="copySampleData(examples.hrv2022.hrv2022_D, $event)">2022 HRV D</a></li>
+            <li><a href="#" v-on:click="copySampleData(examples.jukola2024, $event)">2024 Jukola</a></li>
             </ul>
-        </p>
+        </div>
     </div>
   </div>
   <p v-if="inputError">

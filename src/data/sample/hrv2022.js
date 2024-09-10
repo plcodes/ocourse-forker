@@ -157,3 +157,120 @@ export const hrv2022_D = {
         },
     ],
 }
+
+export const hrv2022_H_randomrules = {
+    name: 'Hämeen Rastiviesti 2022',
+    relayClass: 'H',
+    legCount: 3,
+    legs: [
+        {
+            name: 'H1',
+            displayName: 'H 1. osuus',
+            course: [
+                'V3', 'L1',
+                {A: [81,76], B: [70,80],C: [75,77]},
+                71,
+                {D: [53,43,32], E: [38,39,55]},
+                72,
+                34, 44,
+                73, 47,
+                {F: [50,36], G: [31,58]},
+                100, 'V2', 'M1'
+            ]
+        },
+        {
+            name: 'H2',
+            displayName: 'H 2. osuus',
+            course: [
+                'V1', 'L1',
+                {A: [81,76], B: [70,80],C: [75,77]},
+                71,
+                37, 60,
+                {H: 40, I: 35}, 
+                48, 
+                73, 47,
+                {F: [50,36], G: [31,58]},
+                100, 'V2', 'M1'
+            ]
+        },
+        {
+            name: 'H3',
+            displayName: 'H 3. osuus',
+            course: [
+                'V1', 'L1',
+                {A: [81,76], B: [70,80],C: [75,77]},
+                71,
+                {D: [53,43,32], E: [38,39,55]},
+                72,
+                41, 60,
+                {H: 40, I: 35}, 
+                48,
+                73, 47,
+                46, 51, 54, 84,
+                100, 'V2', 'M1'
+            ]
+        },
+    ],
+    forkingRules: [
+        {
+            leg: 'H3',
+            if: 'H',
+            not: ['B']
+        },
+        {
+            leg: 'H3',
+            if: 'I',
+            then: ['B']
+        },
+        {
+            leg: 'H2',
+            if: 'B',
+            not: ['H']
+        },
+
+    ],
+    "randomRules": [
+        {
+            leg: 1,
+            top: 3,
+            forkings: ['A','B','C'],
+            tolerance: 0
+        },
+        {
+            leg: 1,
+            top: 12,
+            forkings: ['A','B','C'],
+            tolerance: 0
+        },
+        {
+            leg: 1,
+            top: 4,
+            forkings: ['D','E'],
+            tolerance: 0
+        },
+        {
+            leg: 1,
+            top: 12,
+            forkings: ['D','E'],
+            tolerance: 0
+        },
+        {
+            leg: 2,
+            top: 3,
+            forkings: ['A','B','C'],
+            tolerance: 0
+        },
+        {
+            leg: 2,
+            top: 12,
+            forkings: ['A','B','C'],
+            tolerance: 0
+        },
+        {
+            leg: 2,
+            top: 4,
+            forkings: ['H','I'],
+            tolerance: 0
+        },
+      ]
+}

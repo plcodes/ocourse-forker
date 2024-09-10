@@ -1,7 +1,8 @@
 
 {
     "title": "Suunnistuksen viestiratatyökalu",
-    "description": "Työkalu suunnistuksen viestiratojen tekoon rasti- ja hajontakoodien pohjalta. Sivu toimii sellaisenaan, ei tallenna dataa mihinkään, eikä sisällä esim. seurantaskriptejä, jotka voisivat lähettää dataa eteenpäin. Lähdekoodi: <a href='https://github.com/plcodes/ocourse-forker' target='_blank'>https://github.com/plcodes/ocourse-forker</a>",
+    "description": "Työkalu suunnistuksen viestiratojen tekoon rasti- ja hajontakoodien pohjalta. Tekijä: Petteri Laitinen. <br>Kuulen mielelläni työkalun käytöstä. Jos siis käytät tätä kilpailuissa ja käyttämäsi hajontamallin voisi laittaa esimerkkeihin, ole yhteydessä petterila(a)gmail.com",
+    "description2": "Sivu toimii sellaisenaan, ei tallenna dataa mihinkään, eikä sisällä esim. seurantaskriptejä, jotka voisivat lähettää dataa eteenpäin. Lähdekoodi: <a href='https://github.com/plcodes/ocourse-forker' target='_blank'>https://github.com/plcodes/ocourse-forker</a>",
     "copy-to-clipboard": "Kopioi teksti",
     "copy-done": "Kopioitu",
 
@@ -43,12 +44,16 @@
         "nav": "Arvonta",
         "title": "Arvonta",
         "amount": "Joukkueiden lukumäärä:",
+        "first-number": "Ensimmäinen joukkuenumero:",
         "cta": "Suorita arvonta",
         "data": "Arvotut läpiviennit {teams} joukkueelle",
         "explanation-data": "Tämä on viestin ns. Master data. Vie csv exceliin ja lisää oikeat joukkue- ja seuranimet. Sen jälkeen data kelpaa tulospalvelulle ja varakarttapisteelle.",
         "personalization": "Personointi",
         "courses": "Ratojen määrä {teams} joukkueella",
         "course-personalizations": "Ratojen personoinnit (joukkue;osuus)",
+        "printmode": "Tulostusmalli:",
+        "printmode-normal": "Oikea alakulma",
+        "printmode-vertical": "Vasen alakulma, pystyyn",
         "no-data": "Luo ratamääritykset ja viestihajonnat ensin.",
         "previous": "Tallenna arvottu data myöhempää käyttöä varten",
         "previous-import": "Tuo tallennettu data",
